@@ -1,0 +1,61 @@
+.scout {
+  background-image: url('../../public/icons/scout.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.soldier {
+  background-image: url('../../public/icons/soldier.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.pyro {
+  background-image: url('../../public/icons/pyro.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.demoman {
+  background-image: url('../../public/icons/demo.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.heavyweapons {
+  background-image: url('../../public/icons/heavy.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.engineer {
+  background-image: url('../../public/icons/engineer.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.medic {
+  background-image: url('../../public/icons/medic.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.sniper {
+  background-image: url('../../public/icons/sniper.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.spy {
+  background-image: url('../../public/icons/spy.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.Blue {
+  background-color: rgb(64, 64, 128);
+}
+
+.Red {
+  background-color: rgb(128, 64, 64);
+}

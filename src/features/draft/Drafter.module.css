@@ -1,0 +1,97 @@
+.Drafter {
+  flex: 1 0 1%;
+  overflow-y: auto;
+}
+
+.Drafter > .zones {
+  display: flex;
+  flex-direction: row;
+}
+
+.Drafter > .zones > div {
+  flex: 1 1 33%;
+}
+
+.Drafter > .zones .DraftZone {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.Drafter > .zones .DraftZone b {
+  color: chocolate;
+  display: inline-block;
+  margin: 5px 20px;
+  border: 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.Drafter > .zones .DraftZone b:hover {
+  background-color: rgb(70, 70, 100);
+  transition: background-color .25s;
+}
+
+.Drafter > .zones .DraftZone > * > .Draftee {
+  border: 1px solid;
+  border-color: inherit;
+  border-radius: 5px;
+  margin: 5px;
+  flex: 0 0 50px;
+  cursor: grab;
+}
+
+.Drafter > .TeamDrawer {
+  position: absolute;
+  overflow: hidden;
+  bottom: 0px;
+  left: 25%;
+  right: 25%;
+  background-color: gray;
+
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  border-color: inherit;
+  border-bottom: 0px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.Drafter > .TeamDrawer > .header {
+  flex: 0 0 50px;
+}
+
+.Drafter > .TeamDrawer > .teams {
+  display: flex;
+  flex-direction: row;
+  height: 382px;
+
+  transition: height .25s;
+}
+
+.Drafter > .TeamDrawer.closed > .teams {
+  height: 0px;
+  transition: height 1s;
+}
+
+.Drafter > .TeamDrawer .Team {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+
+  overflow: hidden;
+}
+
+.Drafter > .TeamDrawer .Team .Slot {
+  height: 50px;
+  border: 1px solid;
+  border-color: inherit;
+  border-radius: 5px;
+  margin: 5px;
+  background-color: gray;
+}
+
+.Drafter > .TeamDrawer .Team .Slot.empty {
+  opacity: 50%;
+}

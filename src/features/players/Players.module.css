@@ -1,0 +1,117 @@
+/********** Players Sidebar **********/
+
+.Players {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.Players > .playerList {
+  flex: 0 0 300px;
+  border-right: 1px solid;
+  border-color: inherit;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.Players > .playerList > a {
+  flex: 1 1 75px;
+  border: 1px solid;
+  border-color: inherit;
+  border-radius: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  color: rgb(255, 255, 200);
+  text-decoration: none;
+}
+
+.Players > .playerList > a:hover {
+  background-color: rgb(70, 70, 100);
+  transition: background-color .25s;
+}
+
+.Players > .playerList > .player > div:first-child {
+  padding: 5px;
+  flex: 1 1 50px;
+  text-align: left;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 211px;
+}
+
+.Players > .playerList > .player > div:last-child {
+  flex: 0 0 50px;
+  display: flex;
+  flex-direction: column;
+  line-height: 33px;
+}
+
+.Players > .content {
+  flex: 1 1 100%;
+  overflow-y: auto;
+}
+
+/********** Stats **********/
+
+.Players > .content > table {
+  width: 100%;
+}
+
+/********** Player **********/
+
+.Player {
+  display: flex;
+  flex-direction: column;
+}
+
+.Player table {
+  border-collapse: collapse;
+}
+
+.Player > table.logs {
+  margin-bottom: 20px;
+}
+
+.Player > table.logs > tbody > :nth-child(odd) {
+  background-color: rgb(60, 60, 70);
+}
+
+/********** ClassStats **********/
+
+table.ClassStats {
+  border-collapse: collapse;
+}
+
+table.ClassStats > tbody,
+table.ClassStats > thead {
+  border-bottom: 1px solid;
+  border-color: inherit;
+}
+
+table.ClassStats > tbody > :nth-child(2) {
+  background-color: rgb(60, 60, 70);
+}
+
+table.ClassStats > tbody .upper {
+  background-color: green;
+}
+
+table.ClassStats > tbody .lower {
+  background-color: red;
+}
+
+table.ClassStats > thead > tr:first-child > :nth-child(4),
+table.ClassStats > thead > tr:last-child > :nth-child(3),
+table.ClassStats > tbody > tr:first-child > :nth-child(4),
+table.ClassStats > tbody > tr:last-child > :nth-child(3),
+table.ClassStats > thead > tr:first-child > :nth-child(2),
+table.ClassStats > thead > tr:last-child > :nth-child(1),
+table.ClassStats > tbody > tr:first-child > :nth-child(2),
+table.ClassStats > tbody > tr:last-child > :nth-child(1) {
+  border-left: 1px solid;
+  border-color: inherit;
+}

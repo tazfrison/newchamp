@@ -1,0 +1,130 @@
+.ServerList {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 0 0 100px;
+  border-left: 1px solid;
+  border-color: inherit;
+
+  transition: flex .5s;
+}
+
+.ServerList.expanded {
+  flex: 0 0 33%;
+}
+
+.ServerList > .header {
+  flex: 0 0 50px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  cursor: pointer;
+}
+
+.ServerList > .servers {
+  flex: 1 1 50%;
+  overflow-y: auto;
+}
+
+.server {
+  flex: 1 1 100%;
+  margin-bottom: 10px;
+  padding: 0px 5px;
+}
+
+.server > .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.server > .teams {
+  display: flex;
+  flex-direction: row;
+  min-height: 100px;
+}
+
+.server > .teams > * {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.server > .teams > * {
+  flex: 0 0 50%;
+}
+
+.server > .teams .header {
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-color: inherit;
+  padding: 0px 5px;
+}
+
+.server > .teams > * > .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.server .playerlist {
+  text-align: left;
+}
+
+.server > .teams .playerlist > div > .player {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 5px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  white-space: nowrap;
+  padding-right: 25px;
+}
+
+.server > .teams > .red > .playerlist > div > .player {
+  justify-content: right;
+  background-position: left;
+  padding-left: 25px;
+  padding-right: 5px;
+}
+
+.server > .teams > div > .playerlist > div > .player > div {
+  text-align: left;
+  overflow-x: hidden;
+}
+
+.server > .spectator > .playerlist {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 5px;
+  background-color: rgb(128, 128, 128);
+  min-height: 21px;
+}
+
+.server > .spectator > .playerlist > div {
+  margin-right: 5px;
+}
+
+.server > .spectator > .playerlist > div > div:first-child:after {
+  content: ',';
+}
+
+.server > .spectator > .playerlist > div:last-child > div:first-child:after {
+  content: '';
+}
+
+.ServerList > .servers > .ServerStub {
+  border-bottom: 1px solid;
+  border-color: inherit;
+}
+
+.ServerList > .servers > .ServerStub > .score {
+  display: flex;
+  flex-direction: row;
+}
+
+.ServerList > .servers > .ServerStub > .score > * {
+  flex: 0 0 50%;
+}

@@ -1,0 +1,134 @@
+.Logs {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.Logs > .logList {
+  flex: 0 0 300px;
+  border-right: 1px solid;
+  border-color: inherit;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.Logs > .logList > a {
+  flex: 0 0 75px;
+  border: 1px solid;
+  border-color: inherit;
+  border-radius: 10px;
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  color: rgb(255, 255, 200);
+  text-decoration: none;
+  justify-content: space-between;
+}
+
+.Logs > .logList > a:hover {
+  background-color: rgb(70, 70, 100);
+  transition: background-color .25s;
+}
+
+.Logs > .logList > .log > div:first-child {
+  padding: 5px;
+  flex: 1 1 50px;
+  text-align: left;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 211px;
+}
+
+.Logs > .logList > .log > div:first-child > div:first-child {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Logs > .logList > .log > div:last-child {
+  flex: 0 0 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Logs > .logList > .log > div:last-child > div {
+  flex: 1 1 50%;
+  line-height: 33px;
+}
+
+.Logs > .content {
+  flex: 1 1 100%;
+  overflow-y: auto;
+}
+
+.Log {
+  display: flex;
+  flex-direction: column;
+}
+
+.Log > .header {
+  flex: 0 0 75px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  padding: 10px;
+}
+
+.Log > .header > .left {
+  text-align: left;
+}
+
+.Log > .header > .right {
+  text-align: right;
+}
+
+.Log > .body {
+  flex: 1 1 100%;
+  padding: 10px 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Log > .body > .score {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+}
+
+.Log > .body > .score > * {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.Log > .body > table.players {
+  border-collapse: collapse;
+}
+
+.Log > .body > table.players > tbody > :nth-child(odd) {
+  background-color: rgb(60, 60, 70);
+}
+
+.Log > .body > table.players > tbody td:first-child {
+  text-align: center;
+}
+
+.Log > .body > table.players > tbody td {
+  text-align: right;
+  padding: 5px;
+  min-width: 10px;
+}
+
+.Log > .body > table.players > tbody td.name {
+  text-align: left;
+}

@@ -1,0 +1,25 @@
+.Header {
+  flex: 0 0 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  border-bottom: 1px solid;
+  border-bottom-color: inherit;
+}
+
+.Header > a {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-left: 1px solid;
+  border-color: inherit;
+  border-radius: 5px;
+}
+
+.Header > a:hover {
+  background-color: rgb(70, 70, 100);
+}
+
+.Header > a > span {
+  padding-left: 10px;
+}

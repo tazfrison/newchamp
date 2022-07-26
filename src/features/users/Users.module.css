@@ -1,0 +1,76 @@
+.UserList {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 0 0 100px;
+  border-right: 1px solid;
+  border-color: inherit;
+
+  transition: flex .5s;
+}
+
+.UserList.expanded {
+  flex: 0 0 300px;
+}
+
+.UserList > .header {
+  flex: 0 0 50px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  cursor: pointer;
+}
+
+.UserList > .users {
+  flex: 1 1 50%;
+  overflow-y: auto;
+}
+
+.UserList > .users .User {
+  margin: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 5px solid;
+  border-color: inherit;
+  border-radius: 10px;
+  cursor: default;
+  overflow-x: hidden;
+}
+
+.UserList > .users .User.valid {
+  border-color: green;
+}
+
+.UserList > .users .User.invalid {
+  border-color: red;
+}
+
+.userlist .user .nested {
+  padding-left: 10px;
+  text-align: left;
+}
+
+.user > * {
+  padding: 5px;
+}
+
+.user .global {
+  text-align: left;
+}
+
+.user .mumble > * {
+  display: inline-block;
+}
+
+.user .tf2 .BLU {
+  background-color: rgb(128, 128, 255);
+}
+
+.user .tf2 .RED {
+  background-color: rgb(255, 128, 128);
+}
+
+.wrapper.focus > * {
+  background-color: rgb(70, 70, 100);
+  transition: background-color .25s;
+}
