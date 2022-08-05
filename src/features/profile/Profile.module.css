@@ -1,10 +1,11 @@
-.Header {
+div.Header {
   flex: 0 0 50px;
   display: flex;
   flex-direction: row;
   justify-content: right;
   border-bottom: 1px solid;
   border-bottom-color: inherit;
+  z-index: 2;
 }
 
 .Header > a {
@@ -17,9 +18,14 @@
 }
 
 .Header > a:hover {
-  background-color: rgb(70, 70, 100);
+  background-color: rgba(140, 140, 200, .25);
 }
 
-.Header > a > span {
-  padding-left: 10px;
+.Header > button {
+  display: flex;
+  align-items: center;
+}
+
+.Header > button > span {
+  padding: 0px 10px;
 }

@@ -2,17 +2,19 @@ import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import app from '../../app/App.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CLASSES, RED } from '../../app/types';
+import { CLASSES } from '../../app/types';
 import { formatter, LogPlayerProps } from '../logs/logsSlice';
-import { AggregateClassStatProps, ClassStats } from './ClassStats';
+import { ClassStats } from './ClassStats';
 import styles from './Players.module.css';
-import { fetchPlayerAction, selectPlayer } from './playersSlice';
+import { fetchPlayerAction, selectPlayer, selectPlayerStats } from './playersSlice';
 
 function PlayerLog(props: LogPlayerProps) {
+  let score = `${props.log?.redScore}-${props.log?.bluScore}`;
+  let winner = props.log?.winner || 'Tie';
   return (<tr className={styles.PlayerLog}>
       <td title={props.log?.title}><Link to={`/logs/${props.logId}`}>{formatter(new Date(props.log!.upload))}</Link></td>
-      <td className={props.team === RED ? app.red : app.blu}>{props.team}</td>
-      <td className={app[CLASSES[props.logClassStats![0].className]]}>&nbsp;&nbsp;&nbsp;</td>
+      <td className={app[winner]}>{score}</td>
+      <td className={`${app[CLASSES[props.logClassStats![0].className]]} ${app[props.team]}`}>&nbsp;&nbsp;&nbsp;</td>
       <td>{props.kills}</td>
       <td>{props.assists}</td>
       <td>{props.deaths}</td>
@@ -31,6 +33,7 @@ function PlayerLog(props: LogPlayerProps) {
 export default function Player() {
   const params = useParams();
   const player = useAppSelector(selectPlayer(params.steamId!));
+  const stats = useAppSelector(selectPlayerStats(player?.id));
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -43,8 +46,6 @@ export default function Player() {
     return (<div>No player stats yet.</div>);
   }
 
-  const stats: { [className in CLASSES]?: AggregateClassStatProps } = {};
-
   let logPlayers: LogPlayerProps[] = [];
   if (player.logPlayers) {
     logPlayers = player.logPlayers.slice().sort((a, b) => {
@@ -52,29 +53,26 @@ export default function Player() {
     });
   }
 
-  logPlayers.forEach(logPlayer => {
-    if (logPlayer.logClassStats) {
-      logPlayer.logClassStats.forEach(classStats => {
-        if (!stats[classStats.className]) {
-          stats[classStats.className] = JSON.parse(JSON.stringify(classStats));
-          stats[classStats.className]!.total = 1;
-        } else {
-          ['kills', 'assists', 'deaths', 'damage', 'playtime',].forEach(stat => {
-            (stats[classStats.className] as any)[stat] += (classStats as any)[stat];
-          });
-          stats[classStats.className]!.total += 1;
-        }
-      });
-    }
-  });
-
   return (<div className={styles.Player}>
-    {player.name}
+    <div className={styles.header}>
+      <div>{player.name}</div>
+      <div className={styles.links}>
+        <a href={`https://logs.tf/profile/${player.steamId}`} target='_blank' rel='noreferrer'>
+          <img alt='Logs.TF' src='../images/logstf_small.png' />
+        </a>
+        <a href={`https://steamcommunity.com/profile/${player.steamId}`} target='_blank' rel='noreferrer'>
+          <img alt='Steam' src='../images/logo_steam.svg' />
+        </a>
+        <a href={`https://rgl.gg/Public/PlayerProfile.aspx?p=${player.steamId}`} target='_blank' rel='noreferrer'>
+          <img alt='RGL' src='../images/rglgg_logo_small.png' />
+        </a>
+      </div>
+    </div>
     <table className={styles.logs}>
       <thead>
         <tr>
           <th>Date</th>
-          <th>Team</th>
+          <th>Score</th>
           <th>C</th>
           <th>K</th>
           <th>A</th>
@@ -94,6 +92,6 @@ export default function Player() {
         {logPlayers.map(logPlayer => <PlayerLog key={logPlayer.id} {...logPlayer} />)}
       </tbody>
     </table>
-    <ClassStats stats={Object.values(stats)} />
+    <ClassStats stats={Object.values(stats || {})} />
   </div>);
 }

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { io } from 'socket.io-client';
 import { RootState } from '../../app/store';
-import { updateDraft } from '../draft/draftSlice';
+import { DraftProps, updateDraft } from '../draft/draftSlice';
 import { updateLog } from '../logs/logsSlice';
 import { updatePlayer } from '../players/playersSlice';
 import { ServerProps, setMaps, updateServer } from '../servers/serversSlice';
@@ -26,13 +26,13 @@ const initialState: ProfileState = {
 export const initialize = createAsyncThunk('profile/initialize', async (_params, { dispatch }) => {
   const fetchPromise = fetch('/api/state');
   const socket = io();
-  socket.on('users/update', (user: any) => {
+  socket.on('users/update', (user: UserProps) => {
     dispatch(updateUser(user));
   });
   socket.on('servers/update', (server: ServerProps) => {
     dispatch(updateServer(server));
   });
-  socket.on('draft/update', (draft: any) => {
+  socket.on('draft/update', (draft: DraftProps) => {
     dispatch(updateDraft(draft));
   });
   socket.on('logs/update', (log: any) => {

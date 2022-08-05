@@ -15,11 +15,15 @@ export enum CLASSES {
   medic = 'medic',
   sniper = 'sniper',
   spy = 'spy',
+  spectator = 'spectator',
+  unassigned = 'unassigned',
 }
 
 export enum TEAMS {
   Red = 'Red',
   Blue = 'Blue',
+  Spectator = 'Spectator',
+  Unassigned = 'Unassigned',
 }
 
 export const RED = TEAMS.Red;
@@ -35,9 +39,13 @@ export const CLASS_NAMES: {[className in CLASSES]: string} = {
   medic: 'Medic',
   sniper: 'Sniper',
   spy: 'Spy',
+  spectator: 'Spectator',
+  unassigned: 'Unassigned',
 }
 
 export const TEAM_NAMES: {[team in TEAMS]: string} = {
   Red: 'RED',
   Blue: 'BLU',
+  Spectator: 'Spectator',
+  Unassigned: 'Unassigned',
 }

@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import app from '../../app/App.module.css';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useState } from 'react';
+import { useAppSelector } from '../../app/hooks';
 import { CLASSES, CLASS_NAMES } from '../../app/types';
-import { selectAdmin, selectStatus } from '../profile/profileSlice';
+import { selectStatus } from '../profile/profileSlice';
 import { UserMenu } from '../users/UserMenu';
-import { selectUsers, UserProps } from '../users/usersSlice';
+import { selectUsers } from '../users/usersSlice';
+import Draftee from './Draftee';
 import styles from './Drafter.module.css';
 import { DraftPopup } from './DraftPopup';
-import { setIsOpen, SKILL_TITLES } from './draftSlice';
 
 function DraftZone(props: { class: CLASSES }) {
   const users = Object.values(useAppSelector(selectUsers));
@@ -36,46 +34,6 @@ function DraftZone(props: { class: CLASSES }) {
         draftClass={props.class}
       />
     </UserMenu>))}
-  </div>);
-}
-
-interface DrafteeProps extends UserProps {
-  draftClass: CLASSES;
-}
-
-function Draftee(props: DrafteeProps) {
-  const isAdmin = useAppSelector(selectAdmin);
-  const dispatch = useAppDispatch();
-
-  const onDragStart = (
-    event: React.DragEvent<HTMLDivElement>,
-  ) => {
-    dispatch(setIsOpen(true));
-    event.dataTransfer.setData('name', props.name);
-    event.dataTransfer.setData('userid', props.id.toString());
-    event.dataTransfer.setData('skill', props.tags[props.draftClass]!.toString());
-    event.dataTransfer.setData(props.draftClass, props.draftClass);
-  };
-
-  const onDragEnd = (
-    event: React.DragEvent<HTMLDivElement>,
-  ) => {
-    dispatch(setIsOpen(false));
-  };
-
-  let name = (<div>{props.name}</div>);
-  if (props.steamId) {
-    name = (<Link to={`/players/${props.steamId}`}>{props.name}</Link>);
-  }
-
-  return (<div
-    className={`${styles.Draftee} ${app[props.draftClass]}`}
-    onDragStart={onDragStart}
-    onDragEnd={onDragEnd}
-    draggable={isAdmin}
-  >
-    {name}
-    <div>{SKILL_TITLES[props.tags[props.draftClass]!]}</div>
   </div>);
 }
 

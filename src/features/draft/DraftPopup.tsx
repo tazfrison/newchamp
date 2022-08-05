@@ -27,7 +27,7 @@ interface SlotProps extends DraftSlot {
 function Slot(props: SlotProps) {
   const user = useAppSelector(selectUser(props.id || -1));
   let defaultSkill = '';
-  if (user && user.tags[props.class] !== undefined) {
+  if (user && user.tags && user.tags[props.class] !== undefined) {
     defaultSkill = SKILL_TITLES[user.tags[props.class]!];
   }
   const [skill, storeSkill] = useState<string>(defaultSkill);
@@ -60,17 +60,17 @@ function Slot(props: SlotProps) {
     style += ' ' + styles.empty;
   }
 
-  let name = (<div>{props.name}</div>);
+  let name = (<div className={styles.name}>{props.name}</div>);
   if (user) {
     if (user.steamId) {
-      name = (<div>
+      name = (<div className={styles.name}>
         {props.name}
         <a href={`https://logs.tf/profile/${user.steamId}`} target='_blank' rel='noreferrer'>
           {user.name}
         </a>
       </div>);
     } else {
-      name = (<div>{props.name} {user.name}</div>);
+      name = (<div className={styles.name}>{props.name} {user.name}</div>);
     }
   }
 
@@ -90,8 +90,8 @@ export function DraftPopup() {
   const draft = useAppSelector(selectDraft);
   const isOpen = useAppSelector(selectIsOpen);
   const isAdmin = useAppSelector(selectAdmin);
-  const ips = Object.keys(useAppSelector(selectServers));
-  const [server, changeServer] = useState(ips[0]);
+  const servers = useAppSelector(selectServers);
+  const [server, changeServer] = useState(Object.keys(servers)[0]);
   const [active, storeActive] = useState(draft.active);
   const dispatch = useAppDispatch();
 
@@ -126,7 +126,7 @@ export function DraftPopup() {
             value={server}
             onChange={event => changeServer(event.target.value)}
           >
-            {ips.map(ip => (<option key={ip} value={ip}>{ip}</option>))}
+            {Object.values(servers).map(server => (<option key={server.ip} value={server.ip}>{server.name}</option>))}
           </select>
           <button
             onClick={onClick}

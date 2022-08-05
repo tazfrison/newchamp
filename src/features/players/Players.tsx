@@ -1,17 +1,11 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
-import { AggregateClassStatProps, ClassStats } from './ClassStats';
+import { ClassStats } from './ClassStats';
 import styles from './Players.module.css';
-import { selectPlayers, selectStats } from './playersSlice';
+import { selectPlayers } from './playersSlice';
 
 export function Stats() {
-  const stats = useAppSelector(selectStats);
-
-  let classStats: AggregateClassStatProps[] = [];
-  if (stats) {
-    classStats = Object.values(stats);
-  }
-  return (<ClassStats stats={classStats} />);
+  return (<ClassStats />);
 }
 
 export function Players() {

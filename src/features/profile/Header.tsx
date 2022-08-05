@@ -14,7 +14,7 @@ export function Header() {
   }
 
   let profileItem = (<a href='http://50.45.230.50:27960/auth/steam'>
-    <img alt='Sign in through Steam' src='../steamLogin.png' />
+    <img alt='Sign in through Steam' src='../images/steamLogin.png' />
   </a>);
 
   if (!!profile) {

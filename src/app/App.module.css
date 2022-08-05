@@ -53,9 +53,13 @@
 }
 
 .Blue {
-  background-color: rgb(64, 64, 128);
+  background-color: rgba(64, 64, 128, .5);
 }
 
 .Red {
-  background-color: rgb(128, 64, 64);
+  background-color: rgba(128, 64, 64, .5);
+}
+
+.Tie {
+  background-color: rgba(64, 128, 64, .5);
 }

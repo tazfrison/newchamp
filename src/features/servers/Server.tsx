@@ -6,6 +6,7 @@ import { selectUsers, UserProps } from '../users/usersSlice';
 import styles from './Servers.module.css';
 import app from '../../app/App.module.css';
 import { selectMaps, selectServer } from './serversSlice';
+import { TEAMS } from '../../app/types';
 
 function Player(props: { player: UserProps }) {
   if (!props.player.tf2) {
@@ -15,10 +16,10 @@ function Player(props: { player: UserProps }) {
   switch (props.player.tf2.team) {
     case 'Spectator':
       return (<div>{props.player.tf2.name}</div>);
-    case 'BLU':
-    case 'RED':
+    case 'Blue':
+    case 'Red':
       return (<div
-        className={`${styles.player} ${app[props.player.tf2.class]}`}
+        className={`${styles.player} ${app[props.player.tf2.class.toLocaleLowerCase()]}`}
         title={props.player.tf2.name}
       >
         <div>
@@ -51,7 +52,7 @@ function PlayerList(props: { players: number[] }) {
 export function ServerStub(props: { ip: string }) {
   const server = useAppSelector(selectServer(props.ip));
   return (<div className={styles.ServerStub}>
-    <div><a href={`steam://connect/${server.ip}:27015/learning`}>{server.ip}</a></div>
+    <div><a href={`steam://connect/${server.ip}:27015/${server.password}`}>{server.name}</a></div>
     <div>{server.time}</div>
     <div className={styles.score}>
       <span className={app.Blue}>{server.score.blu}</span>
@@ -66,20 +67,20 @@ export function Server(props: { ip: string }) {
   const dispatch = useAppDispatch();
   const server = useAppSelector(selectServer(props.ip));
   const isAdmin = useAppSelector(selectAdmin);
-  const maps = useAppSelector(selectMaps);
+  const maps = useAppSelector(selectMaps).slice();
 
-  const players: { RED: number[], BLU: number[], Spectator: number[], Connecting: number[], [name: string]: number[] } = {
-    RED: [],
-    BLU: [],
-    Spectator: [],
-    Connecting: [],
+  const players: { [team in TEAMS]: number[] } = {
+    [TEAMS.Red]: [],
+    [TEAMS.Blue]: [],
+    [TEAMS.Spectator]: [],
+    [TEAMS.Unassigned]: [],
   };
 
   for (const [key, { team }] of Object.entries(server.players)) {
     if (players[team]) {
       players[team].push(parseInt(key));
     } else {
-      players.Connecting.push(parseInt(key));
+      players[TEAMS.Unassigned].push(parseInt(key));
     }
   }
 
@@ -106,7 +107,7 @@ export function Server(props: { ip: string }) {
 
   return (<div className={styles.server}>
     <div className={styles.header}>
-      <span><a href={`steam://connect/${server.ip}:27015/learning`}>{server.ip}</a></span>
+      <span><a href={`steam://connect/${server.ip}:27015/learning`}>{server.name}</a></span>
       <span>{server.time}</span>
       {map}
       <span>{server.live ? 'Live' : ''}</span>
@@ -117,17 +118,17 @@ export function Server(props: { ip: string }) {
         <div className={styles.header}>
           <b>BLU</b><b>{server.score.blu}</b>
         </div>
-        <PlayerList players={players.BLU} />
+        <PlayerList players={players.Blue} />
       </div>
       <div className={app.Red}>
         <div className={styles.header}>
           <b>{server.score.red}</b><b>RED</b>
         </div>
-        <PlayerList players={players.RED} />
+        <PlayerList players={players.Red} />
       </div>
     </div>
     <div className={styles.spectator}>
-      <PlayerList players={players.Spectator.concat(players.Connecting)} />
+      <PlayerList players={players.Spectator.concat(players.Unassigned)} />
     </div>
   </div>)
 }

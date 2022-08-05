@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { CLASSES } from '../../app/types';
+import { CLASSES, TEAMS } from '../../app/types';
 import { SKILLS } from '../draft/draftSlice';
 
 export interface UserProps {
   id: number;
   name: string;
-  tags: { [className in CLASSES]?: SKILLS },
+  tags: { [className in CLASSES]?: SKILLS };
   validated?: boolean;
   steamId?: string;
   mumble?: {
@@ -21,15 +21,20 @@ export interface UserProps {
       path: string[];
     };
   };
+  player?: {
+    id: number;
+    steamId: string;
+  };
   tf2?: {
     steamId: string;
     name: string;
-    userId: string;
+    userId: number;
+    slotId: number;
     serverIp: string;
     mute: boolean;
     isLocked: boolean;
-    team: string;
-    class: string;
+    team: TEAMS;
+    class: CLASSES;
   };
 };
 

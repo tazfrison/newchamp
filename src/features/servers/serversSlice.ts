@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { CLASSES, TEAMS } from '../../app/types';
 
 export interface ServerProps {
   ip: string;
+  name: string;
+  password: string;
   live: boolean;
   paused: boolean;
   time: string;
@@ -12,8 +15,15 @@ export interface ServerProps {
     blu: number;
   };
   players: { [userId: number]: {
-    team: string;
-    class: string;
+    userId: number;
+    slotId: number;
+    name: string;
+    steamId: string;
+    serverIp: string;
+    mute: boolean;
+    isLocked: boolean;
+    team: TEAMS;
+    class: CLASSES;
   } };
 };
 

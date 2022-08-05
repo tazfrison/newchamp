@@ -62,15 +62,7 @@
   display: inline-block;
 }
 
-.user .tf2 .BLU {
-  background-color: rgb(128, 128, 255);
-}
-
-.user .tf2 .RED {
-  background-color: rgb(255, 128, 128);
-}
-
 .wrapper.focus > * {
-  background-color: rgb(70, 70, 100);
+  background-color: rgba(140, 140, 200, .25);
   transition: background-color .25s;
 }

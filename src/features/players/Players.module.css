@@ -68,6 +68,19 @@
   flex-direction: column;
 }
 
+.Player > .header > .links {
+  display: flex;
+  flex-direction: row;
+}
+
+.Player > .header > .links > * {
+  flex: 1 1 33%;
+}
+
+.Player > .header > .links img {
+  max-height: 40px;
+}
+
 .Player table {
   border-collapse: collapse;
 }
@@ -97,11 +110,16 @@ table.ClassStats > tbody > :nth-child(2) {
 }
 
 table.ClassStats > tbody .upper {
-  background-color: green;
+  background-color: rgba(0, 128, 0, .5);
 }
 
 table.ClassStats > tbody .lower {
-  background-color: red;
+  background-color: rgba(128, 0, 0, .5);
+}
+
+table.ClassStats > tbody > tr:nth-child(odd) > :first-child {
+  text-align: end;
+  padding-right: 5px;
 }
 
 table.ClassStats > thead > tr:first-child > :nth-child(4),

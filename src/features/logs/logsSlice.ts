@@ -10,6 +10,7 @@ export interface LogProps {
   duration: number;
   bluScore: number;
   redScore: number;
+  winner?: TEAMS;
   rounds?: RoundProps[];
   players?: LogPlayerProps[];
   fetching: boolean;
@@ -106,6 +107,15 @@ export const formatter = (date: Date) => {
 
 export const duration = (length: number) => {
   return `${Math.floor(length / 60)}:${('0' + (length % 60)).slice(-2)}`;
+}
+
+export const round = (number: number) => {
+  if (number <= 0) {
+    return 0;
+  }
+  const exp = Math.floor(Math.log10(number));
+  const scale = Math.pow(10, Math.max(2 - exp, 1));
+  return Math.floor(scale * number) / scale;
 }
 
 export const fetchUploaderAction = createAsyncThunk('logs/uploader', async () => {
