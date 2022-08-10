@@ -4,8 +4,8 @@ import { RootState } from '../../app/store';
 import { DraftProps, updateDraft } from '../draft/draftSlice';
 import { updateLog } from '../logs/logsSlice';
 import { updatePlayer } from '../players/playersSlice';
-import { ServerProps, setMaps, updateServer } from '../servers/serversSlice';
-import { updateUser, UserProps } from '../users/usersSlice';
+import { deleteServer, ServerProps, setMaps, updateServer } from '../servers/serversSlice';
+import { updateUser, deleteUser, UserProps } from '../users/usersSlice';
 
 export interface ProfileState {
   steam?: {
@@ -29,8 +29,14 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
   socket.on('users/update', (user: UserProps) => {
     dispatch(updateUser(user));
   });
+  socket.on('users/delete', (user: UserProps) => {
+    dispatch(deleteUser(user.id));
+  });
   socket.on('servers/update', (server: ServerProps) => {
     dispatch(updateServer(server));
+  });
+  socket.on('servers/delete', (server: ServerProps) => {
+    dispatch(deleteServer(server.ip));
   });
   socket.on('draft/update', (draft: DraftProps) => {
     dispatch(updateDraft(draft));

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import app from '../../app/App.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CLASS_NAMES } from '../../app/types';
+import { CLASS_NAMES, CLASS_ORDER } from '../../app/types';
 import { duration, round } from '../logs/logsSlice';
 import styles from './Players.module.css';
 import { fetchStatsAction, selectGlobalStats, AggregateClassStatProps } from './playersSlice';
@@ -16,7 +16,7 @@ export function ClassStats(props: { stats?: AggregateClassStatProps[] }) {
       dispatch(fetchStatsAction());
     }
   }, [globalStats, dispatch]);
-  const stats = props.stats || Object.values(globalStats || {});
+  const stats = (props.stats || Object.values(globalStats || {})).sort((a, b) => CLASS_ORDER[a.className] - CLASS_ORDER[b.className]);
 
   const rows = stats.map(classStats => {
     let rangeStats = {

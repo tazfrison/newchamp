@@ -107,11 +107,11 @@
   margin-right: 5px;
 }
 
-.server > .spectator > .playerlist > div > div:first-child:after {
+.server > .spectator > .playerlist > div > a:after {
   content: ',';
 }
 
-.server > .spectator > .playerlist > div:last-child > div:first-child:after {
+.server > .spectator > .playerlist > div:last-child > a:after {
   content: '';
 }
 

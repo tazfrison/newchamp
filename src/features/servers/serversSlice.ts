@@ -11,8 +11,8 @@ export interface ServerProps {
   time: string;
   map: string;
   score: {
-    red: number;
-    blu: number;
+    Red: number;
+    Blue: number;
   };
   players: { [userId: number]: {
     userId: number;
@@ -44,13 +44,16 @@ export const serversSlice = createSlice({
     updateServer: (state, action: PayloadAction<ServerProps>) => {
       state.servers[action.payload.ip] = action.payload;
     },
+    deleteServer: (state, action: PayloadAction<string>) => {
+      delete state.servers[action.payload];
+    },
     setMaps: (state, action: PayloadAction<string[]>) => {
       state.maps = action.payload;
     },
   },
 });
 
-export const { updateServer, setMaps } = serversSlice.actions;
+export const { updateServer, deleteServer, setMaps } = serversSlice.actions;
 
 export const selectServer = (serverIp: string) => (state: RootState) => state.servers.servers[serverIp];
 export const selectServers = (state: RootState) => state.servers.servers;

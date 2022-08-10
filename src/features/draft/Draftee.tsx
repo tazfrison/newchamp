@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import app from '../../app/App.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CLASSES } from '../../app/types';
+import { CLASSES, SKILL_TITLES } from '../../app/types';
+import { duration, round } from '../logs/logsSlice';
 import { AggregateClassStatProps, selectGlobalStats, selectPlayerStats } from '../players/playersSlice';
 import { selectAdmin } from '../profile/profileSlice';
 import { UserProps } from '../users/usersSlice';
 import styles from './Drafter.module.css';
-import { setIsOpen, SKILL_TITLES } from './draftSlice';
-import { duration, round } from '../logs/logsSlice';
+import { setIsOpen } from './draftSlice';
 
 interface DrafteeProps extends UserProps {
   draftClass: CLASSES;

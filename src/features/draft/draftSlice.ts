@@ -2,32 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { CLASSES, TEAMS } from '../../app/types';
 
-export const CLASS_TITLES = {
-  [CLASSES.scout]: 'Scout',
-  [CLASSES.soldier]: 'Soldier',
-  [CLASSES.pyro]: 'Pyro',
-  [CLASSES.demoman]: 'Demoman',
-  [CLASSES.heavyweapons]: 'Heavy',
-  [CLASSES.engineer]: 'Engineer',
-  [CLASSES.medic]: 'Medic',
-  [CLASSES.sniper]: 'Sniper',
-  [CLASSES.spy]: 'Spy',
-}
-
-export enum SKILLS {
-  NO = 0,
-  MINOR = 1,
-  FREE = 2,
-  PAID = 3,
-}
-
-export const SKILL_TITLES = {
-  [SKILLS.NO]: 'No Competitive Experience',
-  [SKILLS.MINOR]: 'Minor Competitive Experience',
-  [SKILLS.FREE]: 'Free League Experience',
-  [SKILLS.PAID]: 'Paid League Experience',
-}
-
 export enum DRAFT_TYPE {
   COACHED_MIX,
 }

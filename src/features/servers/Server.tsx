@@ -6,7 +6,8 @@ import { selectUsers, UserProps } from '../users/usersSlice';
 import styles from './Servers.module.css';
 import app from '../../app/App.module.css';
 import { selectMaps, selectServer } from './serversSlice';
-import { TEAMS } from '../../app/types';
+import { TEAMS, CLASS_ORDER } from '../../app/types';
+import { Link } from 'react-router-dom';
 
 function Player(props: { player: UserProps }) {
   if (!props.player.tf2) {
@@ -15,19 +16,17 @@ function Player(props: { player: UserProps }) {
 
   switch (props.player.tf2.team) {
     case 'Spectator':
-      return (<div>{props.player.tf2.name}</div>);
+      return (<Link to={`/players/${props.player.steamId}`}>{props.player.tf2.name}</Link>);
     case 'Blue':
     case 'Red':
       return (<div
-        className={`${styles.player} ${app[props.player.tf2.class.toLocaleLowerCase()]}`}
+        className={`${styles.player} ${app[props.player.tf2.class]}`}
         title={props.player.tf2.name}
       >
-        <div>
-          {props.player.tf2.name}
-        </div>
+        <Link to={`/players/${props.player.steamId}`}>{props.player.tf2.name}</Link>
       </div>);
     default:
-      return (<div><i>{props.player.tf2.name}</i></div>);
+      return (<div><i><Link to={`/players/${props.player.steamId}`}>{props.player.tf2.name}</Link></i></div>);
   }
 }
 
@@ -37,9 +36,8 @@ function PlayerList(props: { players: number[] }) {
     if (a.tf2?.class === b.tf2?.class) {
       return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase());
     }
-    return (a.tf2?.class || '').localeCompare(b.tf2?.class || '');
+    return CLASS_ORDER[a.tf2!.class] - CLASS_ORDER[b.tf2!.class];
   });
-  //    .sort((a, b) => (a.tf2 ? a.tf2.name : a.name).localeCompare(b.tf2 ? b.tf2.name : b.name));
   return (<div className={styles.playerlist}>
     {players.map(player => (
       <UserMenu key={player.id} user={player}>
@@ -55,8 +53,8 @@ export function ServerStub(props: { ip: string }) {
     <div><a href={`steam://connect/${server.ip}:27015/${server.password}`}>{server.name}</a></div>
     <div>{server.time}</div>
     <div className={styles.score}>
-      <span className={app.Blue}>{server.score.blu}</span>
-      <span className={app.Red}>{server.score.red}</span>
+      <span className={app.Blue}>{server.score.Blue}</span>
+      <span className={app.Red}>{server.score.Red}</span>
     </div>
     <div>{server.live ? 'Live' : ''}</div>
     <div>{server.paused ? 'Paused' : ''}</div>
@@ -116,13 +114,13 @@ export function Server(props: { ip: string }) {
     <div className={styles.teams}>
       <div className={app.Blue}>
         <div className={styles.header}>
-          <b>BLU</b><b>{server.score.blu}</b>
+          <b>BLU</b><b>{server.score.Blue}</b>
         </div>
         <PlayerList players={players.Blue} />
       </div>
       <div className={app.Red}>
         <div className={styles.header}>
-          <b>{server.score.red}</b><b>RED</b>
+          <b>{server.score.Red}</b><b>RED</b>
         </div>
         <PlayerList players={players.Red} />
       </div>

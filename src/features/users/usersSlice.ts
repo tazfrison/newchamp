@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { CLASSES, TEAMS } from '../../app/types';
-import { SKILLS } from '../draft/draftSlice';
+import { CLASSES, TEAMS, SKILLS } from '../../app/types';
 
 export interface UserProps {
   id: number;
@@ -54,13 +53,16 @@ export const usersSlice = createSlice({
     updateUser: (state, action: PayloadAction<UserProps>) => {
       state.users[action.payload.id] = action.payload;
     },
+    deleteUser: (state, action: PayloadAction<number>) => {
+      delete state.users[action.payload];
+    },
     setFocus: (state, action: PayloadAction<number | undefined>) => {
       state.focus = action.payload;
     },
   },
 });
 
-export const { updateUser, setFocus } = usersSlice.actions;
+export const { updateUser, deleteUser, setFocus } = usersSlice.actions;
 
 export const selectUser = (userId: number) => (state: RootState) => state.users.users[userId];
 export const selectUsers = (state: RootState) => state.users.users;

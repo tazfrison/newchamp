@@ -1,12 +1,12 @@
 import { MouseEventHandler, useState } from 'react';
 import app from '../../app/App.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { BLU, RED, TEAMS } from '../../app/types';
+import { BLU, RED, SKILL_TITLES, TEAMS, SKILLS } from '../../app/types';
 import { selectAdmin, sendAction } from '../profile/profileSlice';
 import { selectServers } from '../servers/serversSlice';
 import { selectUser } from '../users/usersSlice';
 import styles from './Drafter.module.css';
-import { DraftSlot, selectDraft, selectIsOpen, setIsOpen, SKILLS, SKILL_TITLES } from './draftSlice';
+import { DraftSlot, selectDraft, selectIsOpen, setIsOpen } from './draftSlice';
 
 function Team(props: { name: TEAMS, slots: DraftSlot[] }) {
   return (<div className={styles.Team + ' ' + app[props.name]}>
