@@ -9,6 +9,8 @@ import Player from './features/players/Player';
 import { Players, Stats } from './features/players/Players';
 import { Header } from './features/profile/Header';
 import { initialize, selectStatus } from './features/profile/profileSlice';
+import ManageServer from './features/servers/ManageServer';
+import { ManageServers } from './features/servers/ManageServers';
 import { ServerList } from './features/servers/ServerList';
 import { UserList } from './features/users/UserList';
 
@@ -46,6 +48,10 @@ function App() {
         <Route index element={<Index />} />
         <Route path='import' element={<Importer />} />
         <Route path=':logId' element={<Log />} />
+      </Route>
+      <Route path='/servers' element={status === 'ready' ? <ManageServers /> : <Loading />}>
+        <Route path='New' element={<ManageServer />} />
+        <Route path=':configId' element={<ManageServer />} />
       </Route>
     </Routes>
   </BrowserRouter>);

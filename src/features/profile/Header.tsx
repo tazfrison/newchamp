@@ -44,6 +44,7 @@ export function Header() {
     <Link to='/'>Home</Link>
     <Link to='/logs'>Logs</Link>
     <Link to='/players'>Players</Link>
+    <Link to='/servers'>Servers</Link>
     {profileItem}
   </div>);
 }

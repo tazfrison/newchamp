@@ -4,7 +4,7 @@ import { RootState } from '../../app/store';
 import { DraftProps, updateDraft } from '../draft/draftSlice';
 import { updateLog } from '../logs/logsSlice';
 import { updatePlayer } from '../players/playersSlice';
-import { deleteServer, ServerProps, setMaps, updateServer } from '../servers/serversSlice';
+import { deleteServer, LiveServerProps, setMaps, updateServer } from '../servers/serversSlice';
 import { updateUser, deleteUser, UserProps } from '../users/usersSlice';
 
 export interface ProfileState {
@@ -32,11 +32,11 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
   socket.on('users/delete', (user: UserProps) => {
     dispatch(deleteUser(user.id));
   });
-  socket.on('servers/update', (server: ServerProps) => {
+  socket.on('servers/update', (server: LiveServerProps) => {
     dispatch(updateServer(server));
   });
-  socket.on('servers/delete', (server: ServerProps) => {
-    dispatch(deleteServer(server.ip));
+  socket.on('servers/delete', (server: LiveServerProps) => {
+    dispatch(deleteServer(server.model.id!));
   });
   socket.on('draft/update', (draft: DraftProps) => {
     dispatch(updateDraft(draft));
@@ -45,7 +45,7 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
     dispatch(updateLog(log));
   });
   const response = await (await fetchPromise).json();
-  response.servers.forEach((server: ServerProps) => {
+  response.servers.forEach((server: LiveServerProps) => {
     dispatch(updateServer(server));
   });
   response.users.forEach((user: UserProps) => {

@@ -1,3 +1,5 @@
+/* ServerList */
+
 .ServerList {
   display: flex;
   flex-direction: column;
@@ -25,95 +27,7 @@
   overflow-y: auto;
 }
 
-.server {
-  flex: 1 1 100%;
-  margin-bottom: 10px;
-  padding: 0px 5px;
-}
-
-.server > .header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.server > .teams {
-  display: flex;
-  flex-direction: row;
-  min-height: 100px;
-}
-
-.server > .teams > * {
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.server > .teams > * {
-  flex: 0 0 50%;
-}
-
-.server > .teams .header {
-  border-bottom: 1px solid;
-  border-top: 1px solid;
-  border-color: inherit;
-  padding: 0px 5px;
-}
-
-.server > .teams > * > .header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.server .playerlist {
-  text-align: left;
-}
-
-.server > .teams .playerlist > div > .player {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0px 5px;
-  border-bottom: 1px solid;
-  border-color: inherit;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: right;
-  white-space: nowrap;
-  padding-right: 25px;
-}
-
-.server > .teams > .red > .playerlist > div > .player {
-  justify-content: right;
-  background-position: left;
-  padding-left: 25px;
-  padding-right: 5px;
-}
-
-.server > .teams > div > .playerlist > div > .player > div {
-  text-align: left;
-  overflow-x: hidden;
-}
-
-.server > .spectator > .playerlist {
-  display: flex;
-  flex-flow: row wrap;
-  padding: 5px;
-  background-color: rgb(128, 128, 128);
-  min-height: 21px;
-}
-
-.server > .spectator > .playerlist > div {
-  margin-right: 5px;
-}
-
-.server > .spectator > .playerlist > div > a:after {
-  content: ',';
-}
-
-.server > .spectator > .playerlist > div:last-child > a:after {
-  content: '';
-}
+/* ServerStub */
 
 .ServerList > .servers > .ServerStub {
   border-bottom: 1px solid;
@@ -127,4 +41,154 @@
 
 .ServerList > .servers > .ServerStub > .score > * {
   flex: 0 0 50%;
+}
+
+/* Server */
+
+.Server {
+  flex: 1 1 100%;
+  margin-bottom: 10px;
+  padding: 0px 5px;
+}
+
+.Server > .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.Server > .teams {
+  display: flex;
+  flex-direction: row;
+  min-height: 100px;
+}
+
+.Server > .teams > * {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.Server > .teams > * {
+  flex: 0 0 50%;
+}
+
+.Server > .teams .header {
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  border-color: inherit;
+  padding: 0px 5px;
+}
+
+.Server > .teams > * > .header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Server .playerlist {
+  text-align: left;
+}
+
+.Server > .teams .playerlist > div > .player {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 5px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right;
+  white-space: nowrap;
+  padding-right: 25px;
+}
+
+.Server > .teams > .red > .playerlist > div > .player {
+  justify-content: right;
+  background-position: left;
+  padding-left: 25px;
+  padding-right: 5px;
+}
+
+.Server > .teams > div > .playerlist > div > .player > div {
+  text-align: left;
+  overflow-x: hidden;
+}
+
+.Server > .spectator > .playerlist {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 5px;
+  background-color: rgb(128, 128, 128);
+  min-height: 21px;
+}
+
+.Server > .spectator > .playerlist > div {
+  margin-right: 5px;
+}
+
+.Server > .spectator > .playerlist > div > a:after {
+  content: ',';
+}
+
+.Server > .spectator > .playerlist > div:last-child > a:after {
+  content: '';
+}
+
+/* ManageServers */
+
+.ManageServers {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 100%;
+}
+
+.ManageServers > .configs {
+  flex: 0 0 100px;
+  display: flex;
+  border-right: 1px solid;
+  border-color: inherit;
+  flex-direction: column;
+}
+
+.ManageServers > .configs > .config {
+  flex: 0 0 50px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+}
+
+.ManageServers > .content {
+  flex: 1 1 100%;
+}
+
+/* ManageServer */
+
+.ManageServer {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.ManageServer > .header {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 100%;
+}
+
+.ManageServer > .header > .config {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 33%;
+}
+
+.ManageServer > .header > .features {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 33%;
+}
+
+.ManageServer > .header > .actions {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 33%;
 }

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { selectStatus } from '../profile/profileSlice';
+import { AdvancedServer, AdvancedServerStub } from './AdvancedServer';
 import { Server, ServerStub } from './Server';
 import styles from './Servers.module.css';
-import { selectServers } from './serversSlice';
+import { AdvancedLiveServerProps, selectServers } from './serversSlice';
 
 export function ServerList() {
-  const ips = Object.keys(useAppSelector(selectServers));
+  const servers = Object.values(useAppSelector(selectServers));
   const status = useAppSelector(selectStatus);
   const [isExpanded, setExpanded] = useState(false);
 
@@ -27,11 +28,19 @@ export function ServerList() {
       {isExpanded ? 'Servers >' : '< Servers'}
     </div>
     <div className={styles.servers}>
-      {ips.map(ip => {
-        if (isExpanded) {
-          return (<Server key={ip} ip={ip} />);
+      {servers.map(server => {
+        if (server.model.advancedStats) {
+          if (isExpanded) {
+            return (<AdvancedServer key={server.model.id} {...(server as AdvancedLiveServerProps)} />);
+          } else {
+            return (<AdvancedServerStub key={server.model.id} {...(server as AdvancedLiveServerProps)} />);
+          }
         } else {
-          return (<ServerStub key={ip} ip={ip} />)
+          if (isExpanded) {
+            return (<Server key={server.model.id} {...server} />);
+          } else {
+            return (<ServerStub key={server.model.id} {...server} />);
+          }
         }
       })}
     </div>
