@@ -65,6 +65,25 @@
   overflow-y: auto;
 }
 
+.Logs > .content > .Index {
+  display: flex;
+  flex-direction: column;
+}
+
+.Logs > .content > .Index > .header {
+  display: flex;
+  flex-direction: row;
+}
+
+.Logs > .content > .Index > .header > * {
+  flex: 1 1 50%;
+}
+
+.Logs > .content > .Index > .logs {
+  display: flex;
+  flex-direction: row;
+}
+
 .Log {
   display: flex;
   flex-direction: column;

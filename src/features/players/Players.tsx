@@ -10,20 +10,21 @@ export function Stats() {
 
 export function Players() {
   const players = Object.values(useAppSelector(selectPlayers))
+    .filter(player => player !== null)
     .sort((a, b) =>
-      a.LogCount === b.LogCount
-        ? a.name.localeCompare(b.name)
-        : b.LogCount! - a.LogCount!);
+      a!.total === b!.total
+        ? a!.name.localeCompare(b!.name)
+        : b!.total! - a!.total!);
 
   return (<div className={styles.Players}>
     <div className={styles.playerList}>
       {players.map(player => (<Link
         className={styles.player}
-        key={player.steamId}
-        to={`/players/${player.steamId}`}
+        key={player!.steamId}
+        to={`/players/${player!.steamId}`}
       >
-        <div>{player.name}</div>
-        <div>{player.LogCount}</div>
+        <div>{player!.name}</div>
+        <div>{player!.logPlayers?.length}</div>
       </Link>))}
     </div>
     <div className={styles.content}>

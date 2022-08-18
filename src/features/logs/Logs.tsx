@@ -5,9 +5,27 @@ import { selectAdmin, sendAction } from '../profile/profileSlice';
 import styles from './Logs.module.css';
 import app from '../../app/App.module.css';
 import { duration, fetchUploaderAction, formatter, selectLogs, selectUploaded } from './logsSlice';
+import { ClassStats } from '../players/ClassStats';
+
+interface MapStats {
+  count: number;
+}
 
 export function Index() {
   const logs = Object.values(useAppSelector(selectLogs));
+  const [state, setState] = useState(false);
+
+  const header = (<div className={styles.header}>
+    <button onClick={() => setState(false)}>Logs</button>
+    <button onClick={() => setState(true)}>Class Stats</button>
+  </div>);
+
+  if (state) {
+    return (<div className={styles.Index}>
+      {header}
+      <ClassStats />
+    </div>);
+  }
 
   const scoreMap: number[][] = [
     [0, 0, 0, 0, 0, 0],
@@ -18,37 +36,52 @@ export function Index() {
     [0, 0, 0, 0, 0, 0],
   ];
 
-  const mapCount: { [map: string]: number } = {};
+  let max = 0;
+
+  const mapStats: { [map: string]: MapStats } = {};
   logs.forEach(log => {
-    scoreMap[log.bluScore][log.redScore]++;
-    if (!mapCount[log.map]) {
-      mapCount[log.map] = 0;
+    ++scoreMap[log.bluScore][log.redScore];
+    if (scoreMap[log.bluScore][log.redScore] > max) {
+      max = scoreMap[log.bluScore][log.redScore];
     }
-    ++mapCount[log.map];
+    if (!mapStats[log.map]) {
+      mapStats[log.map] = { count: 0 };
+    }
+    ++mapStats[log.map].count;
   });
 
-  return (<div>
-    <table>
-      <tbody>
-        <tr>
-          <th></th>
-          <th className={app.Red}>0</th>
-          <th className={app.Red}>1</th>
-          <th className={app.Red}>2</th>
-          <th className={app.Red}>3</th>
-          <th className={app.Red}>4</th>
-          <th className={app.Red}>5</th>
-        </tr>
-        {scoreMap.map((scores, i) => <tr key={i}>
-          <th className={app.Blue}>{i}</th>
-          {scores.map((score, k) => <td key={k}>{score}</td>)}
-        </tr>)}
-      </tbody>
-    </table>
-    <div>
-      {Object.entries(mapCount).map(([map, count]) => <div key={map}>
-        {map}: {count}
-      </div>)}
+  const getStyle = (count: number) => {
+    const scale = .5 * count / max + .25;
+    return {
+      backgroundColor: `rgba(0,255,0,${scale})`,
+    };
+  }
+
+  return (<div className={styles.Index}>
+    {header}
+    <div className={styles.logs}>
+      <table>
+        <tbody>
+          <tr>
+            <th></th>
+            <th className={app.Red}>0</th>
+            <th className={app.Red}>1</th>
+            <th className={app.Red}>2</th>
+            <th className={app.Red}>3</th>
+            <th className={app.Red}>4</th>
+            <th className={app.Red}>5</th>
+          </tr>
+          {scoreMap.map((scores, i) => <tr key={i}>
+            <th className={app.Blue}>{i}</th>
+            {scores.map((score, k) => <td style={getStyle(score)} key={k}>{score}</td>)}
+          </tr>)}
+        </tbody>
+      </table>
+      <div>
+        {Object.entries(mapStats).map(([map, stats]) => <div key={map}>
+          {map}: {stats.count}
+        </div>)}
+      </div>
     </div>
   </div>);
 }

@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { io } from 'socket.io-client';
 import { RootState } from '../../app/store';
 import { DraftProps, updateDraft } from '../draft/draftSlice';
-import { updateLog } from '../logs/logsSlice';
-import { updatePlayer } from '../players/playersSlice';
+import { LogProps, updateLog } from '../logs/logsSlice';
+import { fetchPlayerAction, fetchPlayersAction, fetchStatsAction, updateGlobals, updatePlayer } from '../players/playersSlice';
 import { deleteServer, LiveServerProps, setMaps, updateServer } from '../servers/serversSlice';
-import { updateUser, deleteUser, UserProps } from '../users/usersSlice';
+import { deleteUser, updateUser, UserProps } from '../users/usersSlice';
 
 export interface ProfileState {
   steam?: {
@@ -26,44 +26,76 @@ const initialState: ProfileState = {
 export const initialize = createAsyncThunk('profile/initialize', async (_params, { dispatch }) => {
   const fetchPromise = fetch('/api/state');
   const socket = io();
-  socket.on('users/update', (user: UserProps) => {
-    dispatch(updateUser(user));
+  socket.on('update', ({ type, data }: { type: string, data: any}) => {
+    switch(type) {
+      case 'user':
+        const user = data as UserProps;
+        dispatch(updateUser(user));
+        if (user.steamId) {
+          dispatch(fetchPlayerAction({ steamId: user.steamId, lazy: true }));
+        }
+        break;
+      case 'server':
+        dispatch(updateServer(data as LiveServerProps));
+        break;
+      case 'draft':
+        dispatch(updateDraft(data as DraftProps));
+        break;
+      case 'log':
+        const log = data as LogProps;
+        dispatch(updateLog(log));
+        dispatch(fetchStatsAction());
+        if (log.players) {
+          const steamIds: string[] = [];
+          log.players.forEach(player => {
+            if (player.player) {
+              steamIds.push(player.player.steamId);
+            }
+          });
+          dispatch(fetchPlayersAction(steamIds));
+        }
+        break;
+      default:
+        break;
+    }
   });
-  socket.on('users/delete', (user: UserProps) => {
-    dispatch(deleteUser(user.id));
-  });
-  socket.on('servers/update', (server: LiveServerProps) => {
-    dispatch(updateServer(server));
-  });
-  socket.on('servers/delete', (server: LiveServerProps) => {
-    dispatch(deleteServer(server.model.id!));
-  });
-  socket.on('draft/update', (draft: DraftProps) => {
-    dispatch(updateDraft(draft));
-  });
-  socket.on('logs/update', (log: any) => {
-    dispatch(updateLog(log));
+  socket.on('delete', ({ type, data }: { type: string, data: any}) => {
+    switch(type) {
+      case 'user':
+        const user = data as UserProps;
+        dispatch(deleteUser(user.id));
+        break;
+      case 'server':
+        const server = data as LiveServerProps;
+        dispatch(deleteServer(server.model.id!));
+        break;
+      default:
+        break;
+    }
   });
   const response = await (await fetchPromise).json();
   response.servers.forEach((server: LiveServerProps) => {
     dispatch(updateServer(server));
   });
-  response.users.forEach((user: UserProps) => {
-    dispatch(updateUser(user));
-  });
   response.logs.forEach((log: any) => {
     dispatch(updateLog(log));
   });
   response.players.forEach((player: any) => {
-    player.player.LogCount = player.LogCount;
-    dispatch(updatePlayer(player.player));
+    dispatch(updatePlayer(player));
+  });
+  response.users.forEach((user: UserProps) => {
+    dispatch(updateUser(user));
+    if (user.steamId) {
+      dispatch(fetchPlayerAction({ steamId: user.steamId, lazy: true }));
+    }
   });
   dispatch(setMaps(response.maps));
   dispatch(updateDraft(response.draft));
+  dispatch(updateGlobals(response.globalStats));
   return response.profile;
 });
 
-export const sendAction = createAsyncThunk('server/action', async (action: { route: string, body: any }) => {
+export const sendAction = createAsyncThunk('profile/action', async (action: { route: string, body: any }) => {
   const { route, body } = action;
   const response = await fetch(`/api/${route}`, {
     body: JSON.stringify(body),
@@ -73,6 +105,15 @@ export const sendAction = createAsyncThunk('server/action', async (action: { rou
     },
   });
   return response.json();
+});
+
+export const logoutAction = createAsyncThunk('profile/logout', async () => {
+  await fetch(`/auth/logout`, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
 });
 
 export const profileSlice = createSlice({
@@ -96,6 +137,9 @@ export const profileSlice = createSlice({
       })
       .addCase(initialize.rejected, (state) => {
         state.status = 'failure';
+      })
+      .addCase(logoutAction.fulfilled, () => {
+        window.location.reload();
       });
   },
 });

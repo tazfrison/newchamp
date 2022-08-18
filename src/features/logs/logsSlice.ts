@@ -143,7 +143,7 @@ export const logsSlice = createSlice({
   name: 'logs',
   initialState,
   reducers: {
-    updateLog: (state, action: PayloadAction<any>) => {
+    updateLog: (state, action: PayloadAction<LogProps>) => {
       action.payload.fetching = false;
       state.logs[action.payload.id] = action.payload;
     },

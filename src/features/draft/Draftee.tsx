@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import app from '../../app/App.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { CLASSES, SKILL_TITLES } from '../../app/types';
 import { duration, round } from '../logs/logsSlice';
-import { AggregateClassStatProps, selectGlobalStats, selectPlayerStats } from '../players/playersSlice';
+import { AggregatedClassStatProps, fetchPlayerAction, selectGlobalStats, selectPlayer } from '../players/playersSlice';
 import { selectAdmin } from '../profile/profileSlice';
 import { UserProps } from '../users/usersSlice';
 import styles from './Drafter.module.css';
@@ -16,10 +16,16 @@ interface DrafteeProps extends UserProps {
 
 export default function Draftee(props: DrafteeProps) {
   const isAdmin = useAppSelector(selectAdmin);
-  const stats = useAppSelector(selectPlayerStats(props.player?.id));
+  const player = useAppSelector(selectPlayer(props.player?.steamId));
   const global = useAppSelector(selectGlobalStats) || {};
   const [expanded, setExpanded] = useState(false);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (props.player && player === undefined) {
+      dispatch(fetchPlayerAction({ steamId: props.player.steamId }));
+    }
+  }, [props, player, dispatch]);
 
   const skillLevel = props.tags[props.draftClass]!;
 
@@ -39,13 +45,17 @@ export default function Draftee(props: DrafteeProps) {
     dispatch(setIsOpen(false));
   };
 
+  let stat: AggregatedClassStatProps | undefined;
+  if (player && player.aggregatedClassStats) {
+    stat = player.aggregatedClassStats.find(stat => stat.className === props.draftClass);
+  }
+
   let statBlock = (<div></div>);
   if (expanded) {
-    if (stats && stats[props.draftClass]) {
-      const stat = stats[props.draftClass]!;
+    if (player && player.aggregatedClassStats && stat) {
       const globalStat = global[props.draftClass] as any;
-      const getStatItem = (type: keyof AggregateClassStatProps) => {
-        const value: number = stat[type] as number;
+      const getStatItem = (type: keyof AggregatedClassStatProps) => {
+        const value: number = stat![type] as number;
         if (undefined === globalStat
           || undefined === globalStat[type]
           || undefined === globalStat[type + '_sd']
@@ -90,10 +100,10 @@ export default function Draftee(props: DrafteeProps) {
   let name = (<div>{props.name}</div>);
   let count = '0/0/0';
   if (props.steamId) {
-    if (stats && stats[props.draftClass]) {
-      const total = stats[props.draftClass]?.count || 0;
-      const wins = stats[props.draftClass]?.wins || 0;
-      const losses = stats[props.draftClass]?.losses || 0;
+    if (stat) {
+      const total = stat.count || 0;
+      const wins = stat.wins || 0;
+      const losses = stat.losses || 0;
       count = `${wins}/${total - wins - losses}/${losses}`;
     }
     name = (<Link to={`/players/${props.steamId}`}>{props.name}</Link>);
