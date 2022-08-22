@@ -1,55 +1,90 @@
-import React from 'react';
+import { MouseEventHandler, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { formatter } from '../logs/logsSlice';
+import { ClassStats } from '../players/ClassStats';
+import { fetchPlayerAction, selectPlayer, updateUserAction } from '../players/playersSlice';
 import styles from './Users.module.css';
-import { UserProps } from './usersSlice';
+import { selectFullUser, selectUser } from './usersSlice';
 
-export default function User({ user, isExpanded }: { user: UserProps, isExpanded: boolean }) {
-  let style = styles.User;
-  if (user.validated === true) {
-    style += ' ' + styles.valid;
-  } else if (user.validated === false) {
-    style += ' ' + styles.invalid;
-  }
-
-  if (!isExpanded) {
-    return (<div className={style}>
-      <div className={styles.global}>
-        <div>{user.name}</div>
-      </div>
-    </div>);
-  }
-
-  let mumble = (<div></div>);
-
-  if (user.mumble) {
-    const path = user.mumble.channel.path.slice(-2);
-    let ele = (<div className={styles.nested}>{path.pop()}</div>);
-    while (path.length) {
-      ele = (<div className={styles.nested}>{path.pop()}{ele}</div>);
+function Player({ steamId }: { steamId: string }) {
+  const dispatch = useAppDispatch();
+  const player = useAppSelector(selectPlayer(steamId));
+  useEffect(() => {
+    if (player === undefined) {
+      dispatch(fetchPlayerAction({ steamId }));
     }
+  }, [steamId, player, dispatch]);
 
-    mumble = (<div className={styles.mumble}>
-      <div className={styles.tree}>
-        <div title={user.mumble.channel.path.join('\n')}>{ele}</div>
+  if (!player) {
+    return (<div></div>);
+  }
+
+  return (<div className={styles.Player}>
+    <div><Link to={`/players/${steamId}`}>{player.name} {player.logPlayers?.length}</Link></div>
+    {!!player.aggregatedClassStats?.length && <ClassStats stats={player.aggregatedClassStats} />}
+  </div>);
+}
+
+export default function User() {
+  const dispatch = useAppDispatch();
+  const params = useParams();
+  const id = parseInt(params.userId!);
+  const full = useAppSelector(selectFullUser(id));
+  const user = useAppSelector(selectUser(id));
+  if (!full) {
+    return (<div>User not found</div>);
+  }
+
+  let voice;
+  if (full.voiceAccount) {
+    voice = (<div>
+      <div>{full.voiceAccount.name}</div>
+      {!!(user && user.mumble) && user.mumble.channel.path.map((name, i) => <div key={i}>{name}</div>)}
+      <div>{Object.entries(full.voiceAccount.tags).map(([key, value]) => {
+        return (<div key={key}>{key}: {value}</div>);
+      })}</div>
+    </div>)
+  }
+
+  const onClick = (key: string, value: any): MouseEventHandler<HTMLButtonElement> => () => {
+    if (!full.player) {
+      return;
+    }
+    dispatch(updateUserAction({
+      id: full.player.id,
+      key,
+      value
+    }));
+  }
+  let headerStyle = '';
+  if (full.player?.admin) {
+    headerStyle = styles.admin;
+  } else if (full.player?.coach) {
+    headerStyle = styles.coach;
+  }
+
+  return (<div className={styles.User}>
+    <div className={styles.header}>
+      <div className={headerStyle}>
+        <div>{full.name}</div>
+        {full.player?.admin && <div><span className={styles.hover}>Admin</span></div>}
+        {full.player?.coach && <div><span className={styles.hover}>Coach</span></div>}
+        <div>{user && 'Online'}</div>
       </div>
-    </div>);
-  }
-
-  let tf2 = (<div></div>);
-
-  if (user.tf2) {
-    const url = 'https://logs.tf/profile/' + user.tf2.steamId;
-    tf2 = (<div className={styles.tf2}>
-      <div><a href={url} target='_blank' rel='noreferrer'>{user.tf2.name}</a></div>
-      <div>{user.tf2.serverIp}</div>
-      <div className={styles[user.tf2.team]}>{user.tf2.class}</div>
-    </div>);
-  }
-
-  return (<div className={style}>
-    <div className={styles.global}>
-      <div>{user.name}</div>
+      <div>
+        <div>First seen: {formatter(new Date(full.createdAt))}</div>
+        <div>Last seen: {formatter(new Date(full.updatedAt))}</div>
+        <div>Last IP: {full.ipCheck?.ip}</div>
+      </div>
+      <div>
+        {!!full.player && [
+          <button key='admin' onClick={onClick('admin', !full.player.admin)}>{full.player.admin ? 'Remove' : 'Make'} Admin</button>,
+          <button key='coach' onClick={onClick('coach', !full.player.coach)}>{full.player.coach ? 'Remove' : 'Make'} Coach</button>
+        ]}
+      </div>
     </div>
-    {mumble}
-    {tf2}
+    {full.player && (<Player steamId={full.player.steamId} />)}
+    {voice}
   </div>);
 }

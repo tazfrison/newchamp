@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 
-.Players > .playerList {
+.Players>.playerList {
   flex: 0 0 300px;
   border-right: 1px solid;
   border-color: inherit;
@@ -16,7 +16,7 @@
   overflow-y: auto;
 }
 
-.Players > .playerList > a {
+.Players>.playerList>a {
   flex: 1 1 75px;
   border: 1px solid;
   border-color: inherit;
@@ -28,12 +28,12 @@
   text-decoration: none;
 }
 
-.Players > .playerList > a:hover {
+.Players>.playerList>a:hover {
   background-color: rgb(70, 70, 100);
   transition: background-color .25s;
 }
 
-.Players > .playerList > .player > div:first-child {
+.Players>.playerList>.player>div:first-child {
   padding: 5px;
   flex: 1 1 50px;
   text-align: left;
@@ -43,21 +43,21 @@
   max-width: 211px;
 }
 
-.Players > .playerList > .player > div:last-child {
+.Players>.playerList>.player>div:last-child {
   flex: 0 0 50px;
   display: flex;
   flex-direction: column;
   line-height: 33px;
 }
 
-.Players > .content {
+.Players>.content {
   flex: 1 1 100%;
   overflow-y: auto;
 }
 
 /********** Stats **********/
 
-.Players > .content > table {
+.Players>.content>table {
   width: 100%;
 }
 
@@ -68,16 +68,16 @@
   flex-direction: column;
 }
 
-.Player > .header > .links {
+.Player>.header>.links {
   display: flex;
   flex-direction: row;
 }
 
-.Player > .header > .links > * {
+.Player>.header>.links>* {
   flex: 1 1 33%;
 }
 
-.Player > .header > .links img {
+.Player>.header>.links img {
   max-height: 40px;
 }
 
@@ -85,11 +85,11 @@
   border-collapse: collapse;
 }
 
-.Player > table.logs {
+.Player>table.logs {
   margin-bottom: 20px;
 }
 
-.Player > table.logs > tbody > :nth-child(odd) {
+.Player>table.logs>tbody> :nth-child(odd) {
   background-color: rgb(60, 60, 70);
 }
 
@@ -99,37 +99,37 @@ table.ClassStats {
   border-collapse: collapse;
 }
 
-table.ClassStats > tbody,
-table.ClassStats > thead {
+table.ClassStats>tbody,
+table.ClassStats>thead {
   border-bottom: 1px solid;
   border-color: inherit;
 }
 
-table.ClassStats > tbody > :nth-child(2) {
+table.ClassStats>tbody> :nth-child(2) {
   background-color: rgb(60, 60, 70);
 }
 
-table.ClassStats > tbody .upper {
+table.ClassStats>tbody .upper {
   background-color: rgba(0, 128, 0, .5);
 }
 
-table.ClassStats > tbody .lower {
+table.ClassStats>tbody .lower {
   background-color: rgba(128, 0, 0, .5);
 }
 
-table.ClassStats > tbody > tr:nth-child(odd) > :first-child {
+table.ClassStats>tbody>tr:nth-child(odd)> :first-child {
   text-align: end;
   padding-right: 5px;
 }
 
-table.ClassStats > thead > tr:first-child > :nth-child(4),
-table.ClassStats > thead > tr:last-child > :nth-child(3),
-table.ClassStats > tbody > tr:first-child > :nth-child(4),
-table.ClassStats > tbody > tr:last-child > :nth-child(3),
-table.ClassStats > thead > tr:first-child > :nth-child(2),
-table.ClassStats > thead > tr:last-child > :nth-child(1),
-table.ClassStats > tbody > tr:first-child > :nth-child(2),
-table.ClassStats > tbody > tr:last-child > :nth-child(1) {
+table.ClassStats>thead>tr:first-child> :nth-child(4),
+table.ClassStats>thead>tr:last-child> :nth-child(3),
+table.ClassStats>tbody>tr:first-child> :nth-child(4),
+table.ClassStats>tbody>tr:last-child> :nth-child(3),
+table.ClassStats>thead>tr:first-child> :nth-child(2),
+table.ClassStats>thead>tr:last-child> :nth-child(1),
+table.ClassStats>tbody>tr:first-child> :nth-child(2),
+table.ClassStats>tbody>tr:last-child> :nth-child(1) {
   border-left: 1px solid;
   border-color: inherit;
 }

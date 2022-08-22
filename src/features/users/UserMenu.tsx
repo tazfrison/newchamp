@@ -45,7 +45,7 @@ export const UserMenu: React.FC<Props> = ({
 
     const payload = {
       body,
-      route: `user/${user.id}/${route}`,
+      route: `users/${user.id}/${route}`,
     };
 
     if (doConfirm) {

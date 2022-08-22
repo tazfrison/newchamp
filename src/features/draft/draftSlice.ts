@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { CLASSES, TEAMS } from '../../app/types';
+import { initialize } from '../profile/profileSlice';
 
 export enum DRAFT_TYPE {
   COACHED_MIX,
@@ -44,6 +45,12 @@ export const draftSlice = createSlice({
     setIsOpen: (state, action: PayloadAction<boolean>) => {
       state.isOpen = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(initialize.fulfilled, (state, action) => {
+        state.draft = action.payload.draft;
+      });
   },
 });
 

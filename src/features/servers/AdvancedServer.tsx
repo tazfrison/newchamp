@@ -20,7 +20,7 @@ function Player(props: { player: UserProps }) {
     case 'Blue':
     case 'Red':
       return (<div
-        className={`${styles.player} ${app[props.player.tf2.class]}`}
+        className={`${styles.player} ${app[props.player.tf2.class!]}`}
         title={props.player.tf2.name}
       >
         <Link to={`/players/${props.player.steamId}`}>{props.player.tf2.name}</Link>
@@ -35,7 +35,7 @@ function PlayerList(props: { players: UserProps[] }) {
     if (!a.tf2 || !b.tf2 || a.tf2?.class === b.tf2?.class) {
       return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase());
     }
-    return CLASS_ORDER[a.tf2!.class] - CLASS_ORDER[b.tf2!.class];
+    return CLASS_ORDER[a.tf2!.class!] - CLASS_ORDER[b.tf2!.class!];
   });
   return (<div className={styles.playerlist}>
     {players.map(player => (
@@ -72,14 +72,15 @@ export function AdvancedServer(server: AdvancedLiveServerProps) {
     [TEAMS.Unassigned]: [],
   };
 
-  for (const player of Object.values(server.players)) {
-    if (!users[player.userId]) {
+  for (const [id, player] of Object.entries(server.players)) {
+    const userId = parseInt(id);
+    if (!users[userId]) {
       continue;
     }
     if (players[player.team]) {
-      players[player.team].push(users[player.userId]);
+      players[player.team].push(users[userId]);
     } else {
-      players[TEAMS.Unassigned].push(users[player.userId]);
+      players[TEAMS.Unassigned].push(users[userId]);
     }
   }
 
@@ -89,7 +90,7 @@ export function AdvancedServer(server: AdvancedLiveServerProps) {
     const mapChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
       if (window.confirm('Change ' + server.model.name + ' to ' + event.target.value + '?')) {
         dispatch(sendAction({
-          route: `server/${server.model.id}/changeLevel`,
+          route: `servers/${server.model.id}/changeLevel`,
           body: [event.target.value],
         }));
       }

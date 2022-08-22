@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { CLASSES, TEAMS } from '../../app/types';
+import { initialize } from '../profile/profileSlice';
 
 export interface LogProps {
   id: number;
@@ -14,7 +15,7 @@ export interface LogProps {
   rounds?: RoundProps[];
   players?: LogPlayerProps[];
   fetching: boolean;
-  teamStats: {[team in TEAMS]: LogTeamStats};
+  teamStats: { [team in TEAMS]: LogTeamStats };
 }
 
 export interface LogTeamStats {
@@ -36,7 +37,7 @@ export interface RoundProps {
   winner?: TEAMS;
   firstCap?: TEAMS;
   logId: number;
-  teamStats: {[team in TEAMS]: RoundTeamStats};
+  teamStats: { [team in TEAMS]: RoundTeamStats };
 }
 
 export interface RoundTeamStats {
@@ -153,6 +154,12 @@ export const logsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(initialize.fulfilled, (state, action) => {
+        action.payload.logs.forEach(log => {
+          log.fetching = false;
+          state.logs[log.id] = log;
+        });
+      })
       .addCase(fetchUploaderAction.pending, (state) => {
         state.uploaded = [];
       })

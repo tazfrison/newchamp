@@ -15,31 +15,31 @@
   flex: 0 0 33%;
 }
 
-.ServerList > .header {
+.ServerList>.header {
   flex: 0 0 50px;
   border-bottom: 1px solid;
   border-color: inherit;
   cursor: pointer;
 }
 
-.ServerList > .servers {
+.ServerList>.servers {
   flex: 1 1 50%;
   overflow-y: auto;
 }
 
 /* ServerStub */
 
-.ServerList > .servers > .ServerStub {
+.ServerList>.servers>.ServerStub {
   border-bottom: 1px solid;
   border-color: inherit;
 }
 
-.ServerList > .servers > .ServerStub > .score {
+.ServerList>.servers>.ServerStub>.score {
   display: flex;
   flex-direction: row;
 }
 
-.ServerList > .servers > .ServerStub > .score > * {
+.ServerList>.servers>.ServerStub>.score>* {
   flex: 0 0 50%;
 }
 
@@ -51,35 +51,35 @@
   padding: 0px 5px;
 }
 
-.Server > .header {
+.Server>.header {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-.Server > .teams {
+.Server>.teams {
   display: flex;
   flex-direction: row;
   min-height: 100px;
 }
 
-.Server > .teams > * {
+.Server>.teams>* {
   flex-direction: column;
   overflow: hidden;
 }
 
-.Server > .teams > * {
+.Server>.teams>* {
   flex: 0 0 50%;
 }
 
-.Server > .teams .header {
+.Server>.teams .header {
   border-bottom: 1px solid;
   border-top: 1px solid;
   border-color: inherit;
   padding: 0px 5px;
 }
 
-.Server > .teams > * > .header {
+.Server>.teams>*>.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -89,7 +89,7 @@
   text-align: left;
 }
 
-.Server > .teams .playerlist > div > .player {
+.Server>.teams .playerlist>div>.player {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -103,19 +103,19 @@
   padding-right: 25px;
 }
 
-.Server > .teams > .red > .playerlist > div > .player {
+.Server>.teams>.red>.playerlist>div>.player {
   justify-content: right;
   background-position: left;
   padding-left: 25px;
   padding-right: 5px;
 }
 
-.Server > .teams > div > .playerlist > div > .player > div {
+.Server>.teams>div>.playerlist>div>.player>div {
   text-align: left;
   overflow-x: hidden;
 }
 
-.Server > .spectator > .playerlist {
+.Server>.spectator>.playerlist {
   display: flex;
   flex-flow: row wrap;
   padding: 5px;
@@ -123,15 +123,15 @@
   min-height: 21px;
 }
 
-.Server > .spectator > .playerlist > div {
+.Server>.spectator>.playerlist>div {
   margin-right: 5px;
 }
 
-.Server > .spectator > .playerlist > div > a:after {
+.Server>.spectator>.playerlist>div>a:after {
   content: ',';
 }
 
-.Server > .spectator > .playerlist > div:last-child > a:after {
+.Server>.spectator>.playerlist>div:last-child>a:after {
   content: '';
 }
 
@@ -141,24 +141,29 @@
   display: flex;
   flex-direction: row;
   flex: 1 1 100%;
+  overflow-y: hidden;
 }
 
-.ManageServers > .configs {
+.ManageServers>.configs {
   flex: 0 0 100px;
   display: flex;
   border-right: 1px solid;
   border-color: inherit;
   flex-direction: column;
+  overflow-y: auto;
 }
 
-.ManageServers > .configs > .config {
+.ManageServers>.configs>.config {
   flex: 0 0 50px;
   border-bottom: 1px solid;
   border-color: inherit;
 }
 
-.ManageServers > .content {
+.ManageServers>.content {
   flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 /* ManageServer */
@@ -169,26 +174,37 @@
   flex-direction: column;
 }
 
-.ManageServer > .header {
+.ManageServer>.header {
   display: flex;
   flex-direction: row;
   flex: 1 1 100%;
 }
 
-.ManageServer > .header > .config {
+.ManageServer>.header>.config {
   display: flex;
   flex-direction: column;
   flex: 1 1 33%;
 }
 
-.ManageServer > .header > .features {
+.ManageServer>.header>.features {
   display: flex;
   flex-direction: column;
   flex: 1 1 33%;
 }
 
-.ManageServer > .header > .actions {
+.ManageServer>.header>.actions {
   display: flex;
   flex-direction: column;
   flex: 1 1 33%;
+}
+
+/* Mumble */
+
+.Mumble {
+  flex: 1 1 100%;
+  text-align: left;
+}
+
+.Mumble .Channel {
+  padding-left: 10px;
 }

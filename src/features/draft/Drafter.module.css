@@ -3,22 +3,22 @@
   overflow-y: auto;
 }
 
-.Drafter > .zones {
+.Drafter>.zones {
   display: flex;
   flex-direction: row;
 }
 
-.Drafter > .zones > div {
+.Drafter>.zones>div {
   flex: 1 1 33%;
 }
 
-.Drafter > .zones .DraftZone {
+.Drafter>.zones .DraftZone {
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
 }
 
-.Drafter > .zones .DraftZone b {
+.Drafter>.zones .DraftZone b {
   color: chocolate;
   display: inline-block;
   margin: 5px 20px;
@@ -27,12 +27,12 @@
   cursor: pointer;
 }
 
-.Drafter > .zones .DraftZone b:hover {
+.Drafter>.zones .DraftZone b:hover {
   background-color: rgba(140, 140, 200, .25);
   transition: background-color .25s;
 }
 
-.Drafter > .zones .DraftZone > * > .Draftee {
+.Drafter>.zones .DraftZone>*>.Draftee {
   border: 1px solid;
   border-color: inherit;
   border-radius: 5px;
@@ -44,41 +44,42 @@
   flex-direction: column;
 }
 
-.Drafter > .zones .DraftZone > * > .Draftee > .header {
+.Drafter>.zones .DraftZone>*>.Draftee>.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   line-height: 35px;
 }
-.Drafter > .zones .DraftZone > * > .Draftee > .stats > table {
+
+.Drafter>.zones .DraftZone>*>.Draftee>.stats>table {
   width: 100%;
 }
 
-.Drafter > .zones .DraftZone > * > .Draftee > .header > div:first-child {
+.Drafter>.zones .DraftZone>*>.Draftee>.header>div:first-child {
   flex: 0 0 35px;
   height: 35px;
 }
 
-.Drafter > .zones .DraftZone > * > .Draftee > .header > div:last-child {
+.Drafter>.zones .DraftZone>*>.Draftee>.header>div:last-child {
   flex: 0 0 50px;
   height: 35px;
 }
 
 .Draftee.experience0 {
-  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0, 0, 128, .5));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 128, .5));
 }
 
 .Draftee.experience1 {
-  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0, 128, 128, .5));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 128, 128, .5));
 }
 
 .Draftee.experience2 {
-  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0, 128, 0, .5));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 128, 0, .5));
 }
 
 .Draftee.experience3 {
-  background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0), rgba(128, 128, 0, .5));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(128, 128, 0, .5));
 }
 
 .Draftee .stats .upper {
@@ -89,7 +90,7 @@
   background-color: rgba(128, 0, 0, .5);
 }
 
-.Drafter > .TeamDrawer {
+.Drafter>.TeamDrawer {
   position: absolute;
   overflow: hidden;
   bottom: 0px;
@@ -105,11 +106,11 @@
   border-radius: 5px 5px 0px 0px;
 }
 
-.Drafter > .TeamDrawer > .header {
+.Drafter>.TeamDrawer>.header {
   flex: 0 0 50px;
 }
 
-.Drafter > .TeamDrawer > .teams {
+.Drafter>.TeamDrawer>.teams {
   display: flex;
   flex-direction: row;
   height: 382px;
@@ -117,12 +118,12 @@
   transition: height .25s;
 }
 
-.Drafter > .TeamDrawer.closed > .teams {
+.Drafter>.TeamDrawer.closed>.teams {
   height: 0px;
   transition: height 1s;
 }
 
-.Drafter > .TeamDrawer .Team {
+.Drafter>.TeamDrawer .Team {
   flex: 1 1 50%;
   display: flex;
   flex-direction: column;
@@ -131,7 +132,7 @@
   overflow: hidden;
 }
 
-.Drafter > .TeamDrawer .Team .Slot {
+.Drafter>.TeamDrawer .Team .Slot {
   height: 50px;
   border: 1px solid;
   border-color: inherit;
@@ -140,10 +141,10 @@
   background-color: gray;
 }
 
-.Drafter > .TeamDrawer .Team .Slot .name a {
+.Drafter>.TeamDrawer .Team .Slot .name a {
   background-color: rgb(70, 70, 100);
 }
 
-.Drafter > .TeamDrawer .Team .Slot.empty {
+.Drafter>.TeamDrawer .Team .Slot.empty {
   opacity: 50%;
 }

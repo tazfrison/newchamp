@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import styles from './Servers.module.css';
 import { fetchConfigsAction, selectServerConfigs } from './serversSlice';
 
-export function ManageServers() {
+export default function ManageServers() {
   const dispatch = useAppDispatch();
   const configs = useAppSelector(selectServerConfigs);
   const sorted = Object.values(configs || {})

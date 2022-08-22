@@ -5,7 +5,7 @@
   overflow: hidden;
 }
 
-.Logs > .logList {
+.Logs>.logList {
   flex: 0 0 300px;
   border-right: 1px solid;
   border-color: inherit;
@@ -14,7 +14,7 @@
   overflow-y: auto;
 }
 
-.Logs > .logList > a {
+.Logs>.logList>a {
   flex: 0 0 75px;
   border: 1px solid;
   border-color: inherit;
@@ -28,12 +28,12 @@
   justify-content: space-between;
 }
 
-.Logs > .logList > a:hover {
+.Logs>.logList>a:hover {
   background-color: rgb(70, 70, 100);
   transition: background-color .25s;
 }
 
-.Logs > .logList > .log > div:first-child {
+.Logs>.logList>.log>div:first-child {
   padding: 5px;
   flex: 1 1 50px;
   text-align: left;
@@ -43,43 +43,43 @@
   max-width: 211px;
 }
 
-.Logs > .logList > .log > div:first-child > div:first-child {
+.Logs>.logList>.log>div:first-child>div:first-child {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.Logs > .logList > .log > div:last-child {
+.Logs>.logList>.log>div:last-child {
   flex: 0 0 50px;
   display: flex;
   flex-direction: column;
 }
 
-.Logs > .logList > .log > div:last-child > div {
+.Logs>.logList>.log>div:last-child>div {
   flex: 1 1 50%;
   line-height: 33px;
 }
 
-.Logs > .content {
+.Logs>.content {
   flex: 1 1 100%;
   overflow-y: auto;
 }
 
-.Logs > .content > .Index {
+.Logs>.content>.Index {
   display: flex;
   flex-direction: column;
 }
 
-.Logs > .content > .Index > .header {
+.Logs>.content>.Index>.header {
   display: flex;
   flex-direction: row;
 }
 
-.Logs > .content > .Index > .header > * {
+.Logs>.content>.Index>.header>* {
   flex: 1 1 50%;
 }
 
-.Logs > .content > .Index > .logs {
+.Logs>.content>.Index>.logs {
   display: flex;
   flex-direction: row;
 }
@@ -89,7 +89,7 @@
   flex-direction: column;
 }
 
-.Log > .header {
+.Log>.header {
   flex: 0 0 75px;
   display: flex;
   flex-direction: row;
@@ -99,28 +99,28 @@
   padding: 10px;
 }
 
-.Log > .header > .left {
+.Log>.header>.left {
   text-align: left;
 }
 
-.Log > .header > .right {
+.Log>.header>.right {
   text-align: right;
 }
 
-.Log > .body {
+.Log>.body {
   flex: 1 1 100%;
   padding: 10px 50px;
   display: flex;
   flex-direction: column;
 }
 
-.Log > .body > .score {
+.Log>.body>.score {
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
 }
 
-.Log > .body > .score > * {
+.Log>.body>.score>* {
   flex: 1 1 50%;
   display: flex;
   flex-direction: row;
@@ -130,24 +130,24 @@
   padding: 10px;
 }
 
-.Log > .body > table.players {
+.Log>.body>table.players {
   border-collapse: collapse;
 }
 
-.Log > .body > table.players > tbody > :nth-child(odd) {
+.Log>.body>table.players>tbody> :nth-child(odd) {
   background-color: rgb(60, 60, 70);
 }
 
-.Log > .body > table.players > tbody td:first-child {
+.Log>.body>table.players>tbody td:first-child {
   text-align: center;
 }
 
-.Log > .body > table.players > tbody td {
+.Log>.body>table.players>tbody td {
   text-align: right;
   padding: 5px;
   min-width: 10px;
 }
 
-.Log > .body > table.players > tbody td.name {
+.Log>.body>table.players>tbody td.name {
   text-align: left;
 }

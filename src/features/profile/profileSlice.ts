@@ -3,18 +3,31 @@ import { io } from 'socket.io-client';
 import { RootState } from '../../app/store';
 import { DraftProps, updateDraft } from '../draft/draftSlice';
 import { LogProps, updateLog } from '../logs/logsSlice';
-import { fetchPlayerAction, fetchPlayersAction, fetchStatsAction, updateGlobals, updatePlayer } from '../players/playersSlice';
-import { deleteServer, LiveServerProps, setMaps, updateServer } from '../servers/serversSlice';
-import { deleteUser, updateUser, UserProps } from '../users/usersSlice';
+import { AggregatedClassStatProps, fetchPlayerAction, fetchPlayersAction, fetchStatsAction, PlayerProps } from '../players/playersSlice';
+import { deleteServer, LiveServerProps, updateServer } from '../servers/serversSlice';
+import { deleteUser, FullUserProps, updateFull, updateUser, UserProps } from '../users/usersSlice';
+
+export interface ApiState {
+  servers: LiveServerProps[],
+  logs: LogProps[],
+  players: PlayerProps[],
+  users: UserProps[],
+  maps: string[],
+  draft: DraftProps,
+  globalStats: AggregatedClassStatProps[],
+  profile?: ProfileProps,
+}
+
+export interface ProfileProps {
+  id: number;
+  steamId: string;
+  avatar: string;
+  name: string;
+  admin: boolean;
+}
 
 export interface ProfileState {
-  steam?: {
-    id: number;
-    steamId: string;
-    avatar: string,
-    name: string,
-    admin: boolean,
-  },
+  steam?: ProfileProps,
   voice?: {},
   status: 'idle' | 'loading' | 'ready' | 'failure';
 };
@@ -28,6 +41,10 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
   const socket = io();
   socket.on('update', ({ type, data }: { type: string, data: any}) => {
     switch(type) {
+      case 'User':
+        const full = data as FullUserProps;
+        dispatch(updateFull(full));
+        break;
       case 'user':
         const user = data as UserProps;
         dispatch(updateUser(user));
@@ -63,7 +80,7 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
     switch(type) {
       case 'user':
         const user = data as UserProps;
-        dispatch(deleteUser(user.id));
+        dispatch(deleteUser(user));
         break;
       case 'server':
         const server = data as LiveServerProps;
@@ -74,25 +91,12 @@ export const initialize = createAsyncThunk('profile/initialize', async (_params,
     }
   });
   const response = await (await fetchPromise).json();
-  response.servers.forEach((server: LiveServerProps) => {
-    dispatch(updateServer(server));
-  });
-  response.logs.forEach((log: any) => {
-    dispatch(updateLog(log));
-  });
-  response.players.forEach((player: any) => {
-    dispatch(updatePlayer(player));
-  });
   response.users.forEach((user: UserProps) => {
-    dispatch(updateUser(user));
-    if (user.steamId) {
+    if (user.steamId) { //Done here so that I can dispatch
       dispatch(fetchPlayerAction({ steamId: user.steamId, lazy: true }));
     }
   });
-  dispatch(setMaps(response.maps));
-  dispatch(updateDraft(response.draft));
-  dispatch(updateGlobals(response.globalStats));
-  return response.profile;
+  return response as ApiState;
 });
 
 export const sendAction = createAsyncThunk('profile/action', async (action: { route: string, body: any }) => {
@@ -120,7 +124,7 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    updateProfile: (state, action: PayloadAction<any>) => {
+    updateProfile: (state, action: PayloadAction<ProfileProps>) => {
       state.steam = action.payload;
     },
   },
@@ -130,8 +134,8 @@ export const profileSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(initialize.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.steam = action.payload;
+        if (action.payload && action.payload.profile) {
+          state.steam = action.payload.profile;
         }
         state.status = 'ready';
       })

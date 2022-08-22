@@ -55,7 +55,7 @@ export function Server(server: LiveServerProps) {
     const mapChange: ChangeEventHandler<HTMLSelectElement> = (event) => {
       if (window.confirm('Change ' + server.model.name + ' to ' + event.target.value + '?')) {
         dispatch(sendAction({
-          route: `server/${server.model.id}/changeLevel`,
+          route: `servers/${server.model.id}/changeLevel`,
           body: [event.target.value],
         }));
       }

@@ -6,12 +6,15 @@ import { Drafter } from './features/draft/Drafter';
 import Log from './features/logs/Log';
 import { Importer, Index, Logs } from './features/logs/Logs';
 import Player from './features/players/Player';
-import { Players, Stats } from './features/players/Players';
+import { Stats } from './features/players/Players';
 import { Header } from './features/profile/Header';
 import { initialize, selectProfile, selectStatus } from './features/profile/profileSlice';
 import ManageServer from './features/servers/ManageServer';
-import { ManageServers } from './features/servers/ManageServers';
+import ManageServers from './features/servers/ManageServers';
+import Mumble from './features/servers/Mumble';
 import { ServerList } from './features/servers/ServerList';
+import User from './features/users/User';
+import Users from './features/users/Users';
 
 function Home() {
   return (<div className='content'>
@@ -54,12 +57,13 @@ function App() {
     if (profile.admin) {
       routes.push(
         (<Route key='servers' path='/servers' element={status === 'ready' ? <ManageServers /> : <Loading />}>
+          <Route index element={<Mumble />} />
           <Route path='New' element={<ManageServer />} />
           <Route path=':configId' element={<ManageServer />} />
         </Route>),
-        (<Route key='users' path='/users' element={status === 'ready' ? <Players /> : <Loading />}>
+        (<Route key='users' path='/users' element={status === 'ready' ? <Users /> : <Loading />}>
           <Route index element={<Stats />} />
-          <Route path=':steamId' element={<Player />} />
+          <Route path=':userId' element={<User />} />
         </Route>),
       );
     }

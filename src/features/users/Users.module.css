@@ -1,68 +1,187 @@
-.UserList {
+.Users {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 100%;
+  overflow: hidden;
+}
+
+.Users>.content {
+  flex: 1 1 100%;
+  overflow: auto;
+}
+
+.Users>.userList {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  flex: 0 0 100px;
+  flex: 0 0 300px;
   border-right: 1px solid;
   border-color: inherit;
+  overflow-y: auto;
 
   transition: flex .5s;
 }
 
-.UserList.expanded {
-  flex: 0 0 300px;
-}
-
-.UserList > .header {
-  flex: 0 0 50px;
-  border-bottom: 1px solid;
-  border-color: inherit;
-  cursor: pointer;
-}
-
-.UserList > .users {
-  flex: 1 1 50%;
-  overflow-y: auto;
-}
-
-.UserList > .users .User {
+.Users>.userList .User {
   margin: 5px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  border: 5px solid;
+  border: 1px solid;
   border-color: inherit;
   border-radius: 10px;
   cursor: default;
-  overflow-x: hidden;
+  padding: 4px;
 }
 
-.UserList > .users .User.valid {
+.Users>.userList .User.online {
+  border: 5px solid;
+  padding: 0px;
+}
+
+.Users>.userList .User.valid {
   border-color: green;
 }
 
-.UserList > .users .User.invalid {
+.Users>.userList .User.invalid {
   border-color: red;
 }
 
-.userlist .user .nested {
-  padding-left: 10px;
-  text-align: left;
+.Users>.userList .User>:first-child,
+.Users>.userList .User>:last-child {
+  flex: 0 0 10%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-origin: content-box;
+  background-position: center;
+  overflow: hidden;
 }
 
-.user > * {
-  padding: 5px;
+.Users>.userList .User>.online {
+  background-color: green;
 }
 
-.user .global {
-  text-align: left;
+.Users>.userList .User>.mumble {
+  background-image: url('../../../public/images/mumble_logo.svg');
+  padding-right: 5px;
 }
 
-.user .mumble > * {
-  display: inline-block;
+.Users>.userList .User>.details {
+  flex: 1 1 80%;
+  flex-direction: column;
 }
 
-.wrapper.focus > * {
+.Users>.userList .User>.steam {
+  background-image: url('../../../public/images/tf2_logo.png');
+  padding-left: 5px;
+}
+
+.Users>.userList .User>.admin {
+  background-image: url('../../../public/images/rko.png');
+  padding-left: 5px;
+}
+
+.Users>.userList .User>.coach {
+  background-image: url('../../../public/images/catJAM.gif');
+  padding-left: 5px;
+}
+
+.Users>.userList .User:hover>.admin {
+  animation: rotating-function 1s linear infinite;
+}
+
+@keyframes rotating-function {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wrapper.focus>* {
   background-color: rgba(140, 140, 200, .25);
   transition: background-color .25s;
+}
+
+/* User */
+
+.Users>.content>.User {
+  display: flex;
+  flex-direction: column;
+}
+
+.Users>.content>.User>.header {
+  flex: 0 0 100px;
+  border-bottom: 1px solid;
+  border-color: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.Users>.content>.User>.header>* {
+  flex: 1 1 33%;
+  display: flex;
+  flex-direction: column;
+}
+
+.Users>.content>.User>.header>.admin,
+.Users>.content>.User>.header>.coach {
+  position: relative;
+  pointer-events: none;
+}
+
+.Users>.content>.User>.header>.admin .hover,
+.Users>.content>.User>.header>.coach .hover {
+  pointer-events: all;
+}
+
+.Users>.content>.User>.header>.admin:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url('../../../public/images/rko.png');
+  background-position-y: 25%;
+  background-position-x: -200%;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transition: background-position-x 1s;
+  transform: scaleX(-1);
+}
+
+.Users>.content>.User>.header>.admin:hover:before {
+  background-position-x: 0%;
+}
+
+.Users>.content>.User>.header>.coach:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url('../../../public/images/catJAM.gif');
+  background-position-x: -200%;
+  background-repeat: no-repeat;
+  z-index: 1;
+  transition: background-position-x .6s;
+}
+
+.Users>.content>.User>.header>.coach:hover:before {
+  background-position-x: 0%;
+}
+
+.Users>.content>.User>.Player {
+  flex: 1 1 100px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid;
+  border-color: inherit;
 }

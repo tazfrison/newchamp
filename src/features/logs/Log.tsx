@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { CLASSES, TEAM_NAMES } from '../../app/types';
+import { CLASSES, CLASS_ORDER, TEAM_NAMES } from '../../app/types';
 import styles from './Logs.module.css';
 import app from '../../app/App.module.css';
 import { duration, fetchLogAction, formatter, LogPlayerProps, RoundProps, selectLog } from './logsSlice';
@@ -46,7 +46,7 @@ export default function Log() {
   if (log.players) {
     players = log.players.slice().sort((a, b) => {
       if (a.team === b.team) {
-        return a.logClassStats![0].className.localeCompare(b.logClassStats![0].className);
+        return CLASS_ORDER[a.logClassStats![0].className] - CLASS_ORDER[b.logClassStats![0].className];
       }
       return a.team.localeCompare(b.team);
     });

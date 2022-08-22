@@ -126,7 +126,7 @@ export function DraftPopup() {
             value={server}
             onChange={event => changeServer(event.target.value)}
           >
-            {Object.values(servers).map(server => (<option key={server.model.ip} value={server.model.ip}>{server.model.name}</option>))}
+            {Object.values(servers).map(server => (<option key={server.model.id} value={server.model.id}>{server.model.name}</option>))}
           </select>
           <button
             onClick={onClick}

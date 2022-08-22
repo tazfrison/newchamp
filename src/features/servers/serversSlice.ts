@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import { CLASSES, TEAMS } from '../../app/types';
+import { initialize } from '../profile/profileSlice';
 
 export interface LiveServerProps {
   map: string;
@@ -49,19 +50,34 @@ export interface ServerConfig {
   channels: { [team in TEAMS]?: number };
 }
 
+export interface MumbleChannelProps {
+  id: number;
+  name: string;
+  children: number[];
+  collapse?: boolean;
+}
+
 export interface ServersState {
+  expand: boolean;
+  mumble?: { [id: number]: MumbleChannelProps };
   configs?: { [id: number]: ServerConfig };
   live: { [id: number]: LiveServerProps };
   maps: string[],
 };
 
 const initialState: ServersState = {
+  expand: false,
   live: {},
   maps: [],
 }
 
+export const fetchMumbleAction = createAsyncThunk('mumble/channels', async () => {
+  const response = await fetch('/api/mumble/channels');
+  return (await response.json()) as MumbleChannelProps[];
+});
+
 export const updateConfigAction = createAsyncThunk('servers/update', async (action: ServerConfig) => {
-  let route = '/api/server';
+  let route = '/api/servers';
   if (action.id) {
     route += `/${action.id}`;
   }
@@ -76,7 +92,7 @@ export const updateConfigAction = createAsyncThunk('servers/update', async (acti
 });
 
 export const configFunctionAction = createAsyncThunk('servers/function', async (action: { command: string, id: number }) => {
-  let route = `/api/server/${action.id}`;
+  let route = `/api/servers/${action.id}`;
   let method = 'GET';
 
   switch (action.command) {
@@ -119,9 +135,23 @@ export const serversSlice = createSlice({
     setMaps: (state, action: PayloadAction<string[]>) => {
       state.maps = action.payload;
     },
+    toggleSidebar: (state, action: PayloadAction<boolean>) => {
+      state.expand = action.payload;
+    },
+    toggleChannel: (state, action: PayloadAction<number>) => {
+      if (state.mumble && state.mumble[action.payload]) {
+        state.mumble[action.payload].collapse = !state.mumble[action.payload].collapse;
+      }
+    }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(initialize.fulfilled, (state, action) => {
+        state.maps = action.payload.maps;
+        action.payload.servers.forEach(server => {
+          state.live[server.model.id!] = server;
+        });
+      })
       .addCase(fetchConfigsAction.pending, (state) => {
         state.configs = {};
       })
@@ -131,6 +161,15 @@ export const serversSlice = createSlice({
           if (config.id) {
             state.configs![config.id] = config;
           }
+        });
+      })
+      .addCase(fetchMumbleAction.pending, (state) => {
+        state.mumble = {};
+      })
+      .addCase(fetchMumbleAction.fulfilled, (state, action) => {
+        state.mumble = {};
+        action.payload.forEach((mumble) => {
+          state.mumble![mumble.id] = mumble;
         });
       })
       .addCase(configFunctionAction.fulfilled, (state, action) => {
@@ -146,7 +185,7 @@ export const serversSlice = createSlice({
   },
 });
 
-export const { updateServer, deleteServer, setMaps } = serversSlice.actions;
+export const { updateServer, deleteServer, setMaps, toggleChannel, toggleSidebar } = serversSlice.actions;
 
 export const selectMaps = (state: RootState) => state.servers.maps;
 
@@ -155,5 +194,10 @@ export const selectServers = (state: RootState) => state.servers.live;
 
 export const selectServerConfigs = (state: RootState) => state.servers.configs;
 export const selectServerConfig = (id: number) => (state: RootState) => state.servers.configs ? state.servers.configs[id] : undefined;
+
+export const selectMumbleRoot = (state: RootState) => state.servers.mumble ? state.servers.mumble[0] : undefined;
+export const selectMumbleChannel = (id: number) => (state: RootState) => state.servers.mumble ? state.servers.mumble[id] : undefined;
+
+export const selectExpand = (state: RootState) => state.servers.expand;
 
 export default serversSlice.reducer;
