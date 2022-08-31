@@ -206,5 +206,22 @@
 }
 
 .Mumble .Channel {
+  padding-left: 25px;
+}
+
+.Mumble .Channel.children {
   padding-left: 10px;
+}
+
+.Mumble .Channel.children:before {
+  display: inline-block;
+  content: '>';
+  transition: transform .5s;
+  transform: rotate(90deg);
+  padding-right: 5px;
+  font-weight: bolder;
+}
+
+.Mumble .Channel.collapse:before {
+  transform: rotate(0deg);
 }

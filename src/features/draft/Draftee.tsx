@@ -27,7 +27,7 @@ export default function Draftee(props: DrafteeProps) {
     }
   }, [props, player, dispatch]);
 
-  const skillLevel = props.tags[props.draftClass]!;
+  const skillLevel = props.mumble!.tags[props.draftClass]!;
 
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,

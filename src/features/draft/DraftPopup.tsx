@@ -27,8 +27,8 @@ interface SlotProps extends DraftSlot {
 function Slot(props: SlotProps) {
   const user = useAppSelector(selectUser(props.id || -1));
   let defaultSkill = '';
-  if (user && user.tags && user.tags[props.class] !== undefined) {
-    defaultSkill = SKILL_TITLES[user.tags[props.class]!];
+  if (user && user.mumble && user.mumble.tags && user.mumble.tags[props.class] !== undefined) {
+    defaultSkill = SKILL_TITLES[user.mumble.tags[props.class]!];
   }
   const [skill, storeSkill] = useState<string>(defaultSkill);
   const dispatch = useAppDispatch();
@@ -64,13 +64,12 @@ function Slot(props: SlotProps) {
   if (user) {
     if (user.steamId) {
       name = (<div className={styles.name}>
-        {props.name}
         <a href={`https://logs.tf/profile/${user.steamId}`} target='_blank' rel='noreferrer'>
           {user.name}
         </a>
       </div>);
     } else {
-      name = (<div className={styles.name}>{props.name} {user.name}</div>);
+      name = (<div className={styles.name}>{user.name}</div>);
     }
   }
 
@@ -78,6 +77,7 @@ function Slot(props: SlotProps) {
     className={style}
     onDragOver={onDragOver}
     onDrop={onDrop}
+    title={props.name}
   >
     {name}
     <div>

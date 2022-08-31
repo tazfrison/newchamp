@@ -10,6 +10,7 @@
   background-color: rgb(50, 50, 60);
   color: rgb(255, 255, 200);
   border-color: rgb(128, 128, 0);
+  overflow-y: hidden;
 }
 
 #root:before {

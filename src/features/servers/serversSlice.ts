@@ -54,6 +54,7 @@ export interface MumbleChannelProps {
   id: number;
   name: string;
   children: number[];
+  tags?: { [key: string]: any };
   collapse?: boolean;
 }
 
@@ -72,7 +73,39 @@ const initialState: ServersState = {
 }
 
 export const fetchMumbleAction = createAsyncThunk('mumble/channels', async () => {
-  const response = await fetch('/api/mumble/channels');
+  const response = await fetch('/api/mumble');
+  return (await response.json()) as MumbleChannelProps[];
+});
+
+export const updateChannelAction = createAsyncThunk('mumble/channel', async ({ id, tags }: { id: number, tags: any }, { getState }) => {
+  const state = getState() as RootState;
+  let route = `/api/mumble/${id}`;
+  let method = 'PATCH';
+  let body = tags;
+  if (!state.servers.mumble) {
+    return;
+  }
+  const channel = state.servers.mumble[id];
+  if (!channel || !channel.tags) {
+    if (tags === '') {
+      return;
+    }
+    method = 'POST';
+  } else if (tags === '') {
+    method = 'DELETE';
+    body = undefined;
+  } else {
+    method = 'PATCH';
+  }
+
+  await fetch(route, {
+    method,
+    body,
+    headers: {
+      'Content-type': 'application/json',
+    },
+  });
+  const response = await fetch('/api/mumble');
   return (await response.json()) as MumbleChannelProps[];
 });
 

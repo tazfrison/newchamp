@@ -12,8 +12,12 @@ function DraftZone(props: { class: CLASSES }) {
   const users = Object.values(useAppSelector(selectUsers));
   const [open, setOpen] = useState(true);
   const filtered = users
-    .filter(user => user.validated && user.tags && user.tags[props.class] !== undefined)
-    .sort((a, b) => a.tags[props.class]! - b.tags[props.class]!);
+    .filter(user =>
+      user.validated && user.mumble && user.mumble.tags
+      && user.mumble.tags.draft
+      && user.mumble.tags[props.class] !== undefined
+    )
+    .sort((a, b) => a.mumble!.tags[props.class]! - b.mumble!.tags[props.class]!);
 
   if (!open) {
     return (<div

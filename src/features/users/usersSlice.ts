@@ -21,6 +21,7 @@ export interface UserProps {
       name: string;
       path: string[];
     };
+    tags: { [className in CLASSES | 'draft']?: SKILLS };
   };
   player?: {
     id: number;
